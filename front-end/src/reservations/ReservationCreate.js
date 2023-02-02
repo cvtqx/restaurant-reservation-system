@@ -4,8 +4,11 @@ import {useHistory} from "react-router-dom";
 //import utility functions
 import {createReservation} from "../utils/api";
 
+//import components
+import ErrorAlert from "../layout/ErrorAlert";
 
 const ReservationCreate = () => {
+
     const history = useHistory();
 
     const initialFormState ={
@@ -18,6 +21,7 @@ const ReservationCreate = () => {
     }
 
     const [reservation, setReservation] = useState({...initialFormState});
+    const [error, setError] = useState(null);
 
     function cancelHandler(){
         history.goBack();
@@ -27,9 +31,11 @@ const ReservationCreate = () => {
         event.preventDefault();
         // saves reservation
         //redirects to dashboard for the date of the saved reservation
-        createReservation(reservation).then(()=>{
+        createReservation(reservation)
+        .then(()=>{
             history.push("/dashboard");
-        })       
+        })
+        .catch(setError);       
     }
 
     function changeHandler({target: {name, value}}){
@@ -42,6 +48,7 @@ const ReservationCreate = () => {
   return (
     <main>
       <h1 className="mb-3">Create Reservation</h1>
+      <ErrorAlert error={error} />
       <form onSubmit={submitHandler}>
         <div className="mb-3">
           <label className="form-label" htmlFor="first_name">
