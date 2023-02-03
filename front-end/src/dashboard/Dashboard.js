@@ -20,6 +20,7 @@ function Dashboard({ date }) {
 
   const history = useHistory();
   const query = useQuery();
+  const route = useRouteMatch();
  
 
   
@@ -40,7 +41,23 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }
 
+//update date state
+  useEffect(() =>{
 
+    function getDate(){
+      const getQueryDate = query.get("date");
+
+      if(getQueryDate){
+        setCurrentDate(getQueryDate)
+      }else{
+        setCurrentDate(today())
+      }
+    }
+    getDate();
+    
+  }, [query, route])
+
+  
   
 
 
@@ -57,8 +74,8 @@ function Dashboard({ date }) {
           type="button"
           className="btn btn-outline-primary"
           onClick={() => {
-            history.push(`/dashboard?date=${previous(date)}`);
-            setCurrentDate(previous(date));
+            history.push(`/dashboard?date=${previous(currentDate)}`);
+            setCurrentDate(previous(currentDate));
           }}
         >
           Previous day
@@ -67,8 +84,8 @@ function Dashboard({ date }) {
           type="button"
           className="btn btn-outline-primary"
           onClick={() => {
-            history.push(`/dashboard?date=${today(date)}`);
-            setCurrentDate(today(date));
+            history.push(`/dashboard?date=${today(currentDate)}`);
+            setCurrentDate(today(currentDate));
           }}
         >
           Today
@@ -77,7 +94,7 @@ function Dashboard({ date }) {
           type="button"
           className="btn btn-outline-primary"
           onClick={() => {
-            history.push(`/dashboard?date=${next(date)}`);
+            history.push(`/dashboard?date=${next(currentDate)}`);
             setCurrentDate(next(date));
           }}
         >
@@ -86,7 +103,7 @@ function Dashboard({ date }) {
       </div>
 
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">{`Reservations for ${date}`}</h4>
+        <h4 className="mb-0">{`Reservations for ${currentDate}`}</h4>
       </div>
 
       <ErrorAlert error={reservationsError} />

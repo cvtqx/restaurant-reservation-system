@@ -29,11 +29,9 @@ const ReservationCreate = () => {
 
     function submitHandler(event){
         event.preventDefault();
-        // saves reservation
-        //redirects to dashboard for the date of the saved reservation
         createReservation(reservation)
         .then(()=>{
-            history.push("/dashboard");
+            history.push(`/dashboard?date=${reservation.reservation_date}`);
         })
         .catch(setError);       
     }

@@ -49,13 +49,13 @@ function validNumberOfPeople(req, res, next){
 function validTimeFormat(req, res, next){
 
   const time = req.body.data.reservation_time;
-  const validTime = /^(\d{1,2}):(\d{2})([ap]m)?$/;
+  const validTime = /[0-9]{2}:[0-9]{2}/;
 
   if(!validTime.test(time)){
     return next({
-        status: 400,
-        message: "Invalid time format"
-      })
+      status: 400,
+      message: "Invalid reservation_time format",
+    });
     }
     next();
   }
@@ -66,14 +66,13 @@ function validTimeFormat(req, res, next){
 function validDateFormat(req, res, next){
 
   const date = req.body.data.reservation_date;
-  const validDate =
-    /^(0[1-9]|1[0-2])\/(0[1-9]|1\d|2\d|3[01])\/(0[1-9]|1[1-9]|2[1-9])$/;
+  const validDate =/\d{4}-\d{2}-\d{2}/;
 
     if(!validDate.test(date)){
       return next({
         status: 400,
-        message: "Invalid date format"
-      })
+        message: "Invalid reservation_date format",
+      });
     }
     next();
 }
@@ -89,12 +88,21 @@ async function create(req, res){
   })
 }
 
+//list reservations
 async function list(req, res) {
-  const data = await service.list();
 
-  res.json({
-    data,
-  });
+  const reservationDate = req.query.date;
+
+  if(reservationDate){
+    const data = await service.listByDate(reservationDate);
+    res.json({data})
+  }else{
+
+    const data = await service.list();
+
+    res.json({ data })
+  }
+  
 }
 
 module.exports = {
