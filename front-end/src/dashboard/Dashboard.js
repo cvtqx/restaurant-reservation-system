@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
+import {useHistory, useRouteMatch} from "react-router-dom";
+
+//import utility functions
 import { listReservations } from "../utils/api";
+import  useQuery  from "../utils/useQuery";
+import { today, previous, next } from "../utils/date-time";
+
+//import components
 import ErrorAlert from "../layout/ErrorAlert";
+import ReservationsList from "../reservations/ReservationsList";
 
 /**
  * Defines the dashboard page.
@@ -9,59 +17,81 @@ import ErrorAlert from "../layout/ErrorAlert";
  * @returns {JSX.Element}
  */
 function Dashboard({ date }) {
+
+  const history = useHistory();
+  const query = useQuery();
+ 
+
   
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
+  const [currentDate, setCurrentDate] = useState(date);
 
-  useEffect(loadDashboard, [date]);
 
+  useEffect(loadDashboard, [currentDate]);
+
+  //load reservations for current date
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
-    listReservations({ date }, abortController.signal)
+    listReservations({ date: currentDate }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
     return () => abortController.abort();
   }
 
-  const tableRows = reservations.map((reservation) => (
-    <tr key={reservation.reservation_id}>
-      <th scope="row">{reservation.reservation_id}</th>
-      <td>{reservation.first_name}</td>
-      <td>{reservation.last_name}</td>
-      <td>{reservation.mobile_number}</td>
-      <td>{reservation.reservation_date}</td>
-      <td>{reservation.reservation_time}</td>
-      <td>{reservation.people}</td>
-      <td>{reservation.created_at}</td>
-    </tr>
-  ));
+
+  
+
 
   return (
     <main>
       <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for date</h4>
+
+      <div
+        className="btn-group"
+        role="group"
+        aria-label="Basic outlined example"
+      >
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={() => {
+            history.push(`/dashboard?date=${previous(date)}`);
+            setCurrentDate(previous(date));
+          }}
+        >
+          Previous day
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={() => {
+            history.push(`/dashboard?date=${today(date)}`);
+            setCurrentDate(today(date));
+          }}
+        >
+          Today
+        </button>
+        <button
+          type="button"
+          className="btn btn-outline-primary"
+          onClick={() => {
+            history.push(`/dashboard?date=${next(date)}`);
+            setCurrentDate(next(date));
+          }}
+        >
+          Next day
+        </button>
       </div>
+
+      <div className="d-md-flex mb-3">
+        <h4 className="mb-0">{`Reservations for ${date}`}</h4>
+      </div>
+
       <ErrorAlert error={reservationsError} />
-      <table className="table">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">First Name</th>
-            <th scope="col">Last Name</th>
-            <th scope="col">Mobile Number</th>
-            <th scope="col">Date</th>
-            <th scope="col">Time</th>
-            <th scope="col">Number of people</th>
-            <th scope="col">Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {tableRows}
-        </tbody>
-      </table>
-      
+
+      <ReservationsList reservations={reservations} />
     </main>
   );
 }
