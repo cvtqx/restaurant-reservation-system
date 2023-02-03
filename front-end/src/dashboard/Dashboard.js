@@ -61,6 +61,7 @@ function Dashboard({ date }) {
           {tableRows}
         </tbody>
       </table>
+      
     </main>
   );
 }

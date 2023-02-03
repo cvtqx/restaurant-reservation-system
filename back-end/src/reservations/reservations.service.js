@@ -6,6 +6,11 @@ function create(newReservation){
     .returning("*")
 }
 
+async function list(){
+    return knex("reservations").select("*");
+}
+
 module.exports ={
     create,
+    list
 }
