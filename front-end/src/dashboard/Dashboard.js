@@ -109,6 +109,7 @@ function Dashboard({ date }) {
       <ErrorAlert error={reservationsError} />
 
       <ReservationsList reservations={reservations} />
+      
     </main>
   );
 }

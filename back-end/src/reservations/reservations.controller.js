@@ -35,10 +35,26 @@ function validNumberOfPeople(req, res, next){
 
   const people = Number(req.body.data.people);
 
-  if (people < 1 || !Number.isInteger(people)){
+  if (people < 1){
     return next({
       status: 400,
       message: "Number of people must be 1 or more",
+    });
+  }
+  next();
+}
+
+//validate that people property is a number
+
+function peopleIsNumber(req, res, next){
+
+  const people = req.body.data.people;
+
+
+  if(!Number.isInteger(people)){
+    return next({
+      status: 400,
+      message: "'people' must be a number"
     });
   }
   next();
@@ -77,6 +93,43 @@ function validDateFormat(req, res, next){
     next();
 }
 
+//validate that reservation is not for a Tuesday(1)
+
+function reservationOnTuesday(req, res,next){
+  
+  const resDate = new Date(req.body.data.reservation_date);
+
+  const resDay = resDate.getDay();
+
+  if(resDay === 1){
+    return next({
+      status: 400,
+      message: "The restaurant is closed on Tuesdays",
+    });
+  }
+  next();
+}
+
+
+//validate that reservation is not for a date and time in the past
+
+function reservationNotInPast(req, res, next){
+
+  const resDate = req.body.data.reservation_date;
+  const resTime = req.body.data.reservation_time;
+
+  if(new Date(`${resDate}, ${resTime}`) < new Date()){
+    return next({
+      status: 400,
+      message: "Reservation must be for a future date/time",
+    });
+  }
+next();
+}
+
+
+//validate that reservation is within eligible timeframe
+
 //create new reservation
 
 async function create(req, res){
@@ -111,8 +164,11 @@ module.exports = {
     hasData,
     hasRequiredProperties,
     validNumberOfPeople,
+    peopleIsNumber,
     validDateFormat,
     validTimeFormat,
+    reservationOnTuesday,
+    reservationNotInPast,
     asyncErrorBoundary(create),
   ],
 };
