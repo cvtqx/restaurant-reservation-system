@@ -130,6 +130,24 @@ next();
 
 //validate that reservation is within eligible timeframe
 
+function reservationTimeFrameValid(req, res, next){
+
+      const resTime = req.body.data.reservation_time;
+      const resDate = req.body.data.reservation_date;
+
+      const date = new Date(`${resDate}, ${resTime}`);
+
+      const resTimeString = parseInt(`${date.getHours()}${date.getMinutes()}`)
+
+      if(resTimeString < 1030 || resTimeString > 2130){
+        return next({
+          status: 400,
+          message: "Reservation must be made between 10:30am and 9:30pm",
+        });
+      }
+  next();
+}
+
 //create new reservation
 
 async function create(req, res){
@@ -169,6 +187,7 @@ module.exports = {
     validTimeFormat,
     reservationOnTuesday,
     reservationNotInPast,
+    reservationTimeFrameValid,
     asyncErrorBoundary(create),
   ],
 };

@@ -4,7 +4,7 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
 
 
   return (
-  <main>
+    <main>
       <form onSubmit={submitHandler}>
         <div className="mb-3">
           <label className="form-label" htmlFor="first_name">
@@ -87,6 +87,8 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             onChange={changeHandler}
             placeholder="HH:MM"
             pattern="[0-9]{2}:[0-9]{2}"
+            min="10:30"
+            max="21:30"
           />
         </div>
         <div className="mb-3">
