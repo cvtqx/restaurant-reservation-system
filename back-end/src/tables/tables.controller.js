@@ -16,12 +16,27 @@ async function create(req, res) {
 }
 
 async function list(req, res){
+
+    const data = await service.list();
+    
     res.json({
-        data: tables,
+        data,
     })
+}
+
+async function update(req, res, next){
+  const updatedTable ={
+    ...req.body.data,
+    table_id: req.body.data.table_id,
+    
+  };
+  const data = await service.update(updatedTable);
+  res.json({data});
+
 }
 
 module.exports = {
   create: asyncErrorBoundary(create),
-  list,
+  list: asyncErrorBoundary(list),
+  update: asyncErrorBoundary(update),
 };

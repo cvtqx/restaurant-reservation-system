@@ -13,6 +13,9 @@ const ReservationsList = ({reservations}) => {
         <td>{reservation.reservation_time}</td>
         <td>{reservation.people}</td>
         <td>{reservation.created_at}</td>
+        <td>
+          <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
+        </td>
       </tr>
     ));
 
@@ -29,6 +32,7 @@ const ReservationsList = ({reservations}) => {
             <th scope="col">Time</th>
             <th scope="col">Number of people</th>
             <th scope="col">Created</th>
+            <th scope="col">Action</th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>

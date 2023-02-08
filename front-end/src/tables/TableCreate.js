@@ -19,6 +19,7 @@ export const TableCreate = () => {
     }
 
     const [formData, setFormData] = useState({...initialFormState});
+
     const [error, setError] = useState(null);
     
 
@@ -29,13 +30,27 @@ export const TableCreate = () => {
 
     //submit button handler
 
-    function submitHandler(event){
-        event.preventDefault();
+    const submitHandler = async (event) => {
 
-        createTable(formData).then(()=>{
+        event.preventDefault();
+        setError(null);
+        const abortController= new AbortController();
+        formData.capacity = Number(formData.capacity);
+
+
+         try {
+           await createTable(
+             formData,
+             abortController.signal
+           );
+           //console.log(response)
            history.push("/");
-        })
-        .catch(setError);
+         } catch (error) {
+           //console.log(error)
+           setError(error);
+         }
+         return () => abortController.abort();
+        
     }
 
     //form change handler
@@ -50,7 +65,7 @@ export const TableCreate = () => {
 
   return (
     <main>
-    <ErrorAlert error={error} />
+      <ErrorAlert error={error} />
       <TableForm
         submitHandler={submitHandler}
         cancelHandler={cancelHandler}

@@ -29,15 +29,25 @@ const ReservationCreate = () => {
         history.goBack();
     }
 
-    function submitHandler(event){
+    const submitHandler = async(event) => {
+
         event.preventDefault();
+        setError(null);
+      //TO DO try adding validation here before sending a request to API  
+        const abortController = new AbortController();
         reservation.people = Number(reservation.people);
         
-        createReservation(reservation)
-        .then(()=>{
-            history.push(`/dashboard?date=${reservation.reservation_date}`);
-        })
-        .catch(setError);       
+        try{
+          const response = await createReservation(reservation, abortController.signal);
+          //console.log(response)
+          history.push(`/dashboard?date=${response.reservation_date}`);
+        }
+        catch(error){
+          //console.log(error)
+            setError(error)          
+        }
+        return ()=> abortController.abort();
+              
     }
 
     function changeHandler({target: {name, value}}){

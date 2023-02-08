@@ -52,7 +52,6 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             value={reservation.mobile_number}
             onChange={changeHandler}
             placeholder="123-456-7890"
-            pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           />
         </div>
         <div className="mb-3">
@@ -87,8 +86,7 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             onChange={changeHandler}
             placeholder="HH:MM"
             pattern="[0-9]{2}:[0-9]{2}"
-            min="10:30"
-            max="21:30"
+        
           />
         </div>
         <div className="mb-3">

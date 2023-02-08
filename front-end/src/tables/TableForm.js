@@ -3,10 +3,14 @@ import React from 'react'
 const TableForm = ({ submitHandler, cancelHandler, changeHandler, formData }) => {
   return (
     <form onSubmit={submitHandler}>
-        <h4>Create new table</h4>
+      <h1 className="mb-3">Create new table</h1>
       <div className="mb-3">
-        <label htmlFor="table_name"> Table name</label>
+        <label className="form-label" htmlFor="table_name">
+          {" "}
+          Table name
+        </label>
         <input
+          className="form-control"
           name="table_name"
           id="table_name"
           type="text"
@@ -18,8 +22,11 @@ const TableForm = ({ submitHandler, cancelHandler, changeHandler, formData }) =>
         />
       </div>
       <div className="mb-3">
-        <label htmlFor="capacity">Capacity</label>
+        <label className="form-label" htmlFor="capacity">
+          Capacity
+        </label>
         <input
+          className="form-control"
           name="capacity"
           id="capacity"
           type="number"

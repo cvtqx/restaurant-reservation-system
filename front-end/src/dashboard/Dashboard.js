@@ -62,7 +62,9 @@ function Dashboard({ date }) {
 
   //load tables
   useEffect(() =>{
+
     const abortController = new AbortController();
+    setTablesError(null);
     listTables(abortController.signal)
     .then(setTables)
     .catch(setTablesError);
