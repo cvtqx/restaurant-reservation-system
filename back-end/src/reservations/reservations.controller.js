@@ -5,6 +5,7 @@ const hasProperties = require("../errors/hasProperties");
 //import service file
 const service = require("./reservations.service");
 
+//Validation functions
 
 //validate that body has data property
 
@@ -93,7 +94,7 @@ function validDateFormat(req, res, next){
     next();
 }
 
-//validate that reservation is not for a Tuesday(1)
+//validate that reservation is not for a Tuesday
 
 function reservationOnTuesday(req, res,next){
   
@@ -148,6 +149,7 @@ function reservationTimeFrameValid(req, res, next){
   next();
 }
 
+//CRUDL functions
 //create new reservation
 
 async function create(req, res){

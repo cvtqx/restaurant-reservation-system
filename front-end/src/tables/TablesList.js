@@ -9,7 +9,7 @@ const TablesList = ({tables}) => {
         <td>{table.table_name}</td>
         <td>{table.capacity}</td>
         <td data-table-id-status={`${table.table_id}`}>
-          {table.reservation_id ? "Free": "Occupied"}
+          {table.reservation_id === null ? "Free": "Occupied"}
         </td>
       </tr>
     ));

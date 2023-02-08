@@ -5,8 +5,8 @@ import { useParams, useHistory } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
 
 //import utility functions
-import { listTables } from "../utils/api";
-import { seatReservation } from "../utils/api";
+import { listTables, seatReservation } from "../utils/api";
+
 
 const ReservationSeat = () => {
 
@@ -68,13 +68,13 @@ const ReservationSeat = () => {
           onChange={changeHandler}
           value={formData.table_id}
         >
-          <option value="">Select table</option>
+          <option value="">Select a table</option>
           {tables.map((table) => (
             <option key={table.table_id} value={table.table_id}>
               {table.table_name} - {table.capacity}
             </option>
           ))}
-          <option value=""></option>
+          
         </select>
 
         <button type="submit" className="btn btn-primary">

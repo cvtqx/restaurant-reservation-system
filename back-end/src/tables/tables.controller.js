@@ -1,18 +1,117 @@
 //import error components
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
-
+const hasProperties = require("../errors/hasProperties");
 
 //import service file
 const service = require("./tables.service");
+const reservationsService = require("../reservations/reservations.service");
+
+//Validation functions
+
+//validate that table exists
+
+async function tableExists(req, res, next){
+  const table = await service.read(req.params.table_id);
+
+  if(table){
+    res.locals.table = table;
+    return next();
+  }
+  next({status: 404, message: "Table cannot be found"})
+}
+
+//validate that reservation exists
+
+async function reservationExists(req, res, next){
+  const reservation = await reservationsService.read(req.body.data.reservation_id);
+  if(reservation){
+    res.locals.reservation = reservation;
+    return next();
+  }
+  next({ status: 404, message: "Reservation cannot be found" });
+}
+
+//validate that table body has data
+
+function hasData(req, res, next){
+
+  if(req.body.data){
+    return next()
+  }
+  next({status: 400, message: "Body must have data property"})
+}
+
+//validate that body has required properties
+const requiredProperties = ["table_name", "capacity"];
+const hasRequiredProperties = hasProperties(requiredProperties);
+
+//validate that table name is at least 2 characters long
+
+function tableNameIsValid(req, res, next){
+
+  const tableName = req.body.data.table_name;
+  if(tableName.length < 2){
+    return next({
+      status: 400,
+      message: "Table name must be at least 2 characters long"
+    })
+  }
+  next()
+}
+
+//validate that table capacity is at least 1 person
+
+function validCapacity(req, res, next){
+  const tableCapacity = req.body.data.capacity;
+
+  if(tableCapacity < 1){
+    return next({
+      status: 400,
+      message: "Table capacity must be at least 1"
+    })
+  }
+  next()
+}
+
+//validate that table capacity is enough for the number of people
+
+function tableCanFitAllPeople(req, res, next){
+
+  const tableCapacity = res.locals.table.capacity;
+  const numberOfPeopleInReservation = res.locals.reservation.people;
+
+  if(tableCapacity < numberOfPeopleInReservation){
+    return next({
+      status: 400,
+      message: `This table can only fit ${tableCapacity} people. Please choose a bigger table.`
+    })
+  }
+  next();
+}
+
+//validate that table is not occupied
+function tableIsFree(req, res, next){
+  const table = res.locals.table;
+
+  if(table.reservation_id){
+    return next({
+      status: 400,
+      message: "This table is already occupied. Please choose a different table."
+    })
+  }
+  next()
+}
 
 
-
+//CRUDL functions
 
 async function create(req, res) {
+
    const newTable = await service.create(req.body.data);
    res.status(201).json({
     data: newTable,
    });
+
 }
 
 async function list(req, res){
@@ -25,18 +124,31 @@ async function list(req, res){
 }
 
 async function update(req, res, next){
+
   const updatedTable ={
-    ...req.body.data,
-    table_id: req.body.data.table_id,
-    
+    table_id: res.locals.table.table_id,
+    reservation_id: res.locals.reservation.reservation_id,   
   };
+
   const data = await service.update(updatedTable);
   res.json({data});
 
 }
 
 module.exports = {
-  create: asyncErrorBoundary(create),
+  create: [
+    hasData,
+    hasRequiredProperties,
+    tableNameIsValid,
+    validCapacity,
+    asyncErrorBoundary(create),
+  ],
   list: asyncErrorBoundary(list),
-  update: asyncErrorBoundary(update),
+  update: [
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(reservationExists),
+    tableCanFitAllPeople,
+    tableIsFree,
+    asyncErrorBoundary(update),
+  ],
 };
