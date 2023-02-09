@@ -73,7 +73,6 @@ function Dashboard({ date }) {
   }, [])
   
 
-
   return (
     <main>
       <h1>Dashboard</h1>

@@ -5,7 +5,7 @@ import { useHistory} from 'react-router';
 import ErrorAlert from '../layout/ErrorAlert';
 
 //import utility functions
-import {finishTable} from "../utils/api";
+import {finishTable, listTables} from "../utils/api";
 
 const TableFinish = ({table}) => {
 
@@ -18,18 +18,20 @@ const TableFinish = ({table}) => {
         
         const abortController = new AbortController();
 
-        try{
+        
             const confirmation = window.confirm(
               "Is this table ready to seat new guests? This cannot be undone."
             );
             if (confirmation) {
-              await finishTable(table.table_id);
-              history.push("/");
-              window.location.reload();
-            }
-        }catch(error){
-            setError(error)
-        }
+              try{
+              await finishTable(table.table_id, abortController.signal);
+              //await listTables(abortController.signal); //refresh the list of tables - not sure about this one - test does not pass
+              history.push("/"); 
+              }
+              catch(error){
+                setError(error)
+              }             
+            }      
        return () => abortController.abort();
     }
 
