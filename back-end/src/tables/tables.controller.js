@@ -11,6 +11,7 @@ const reservationsService = require("../reservations/reservations.service");
 //validate that table exists
 
 async function tableExists(req, res, next){
+
   const table = await service.read(req.params.table_id);
 
   if(table){
@@ -23,15 +24,18 @@ async function tableExists(req, res, next){
 //validate that reservation exists
 
 async function reservationExists(req, res, next){
-  const reservation = await reservationsService.read(req.body.data.reservation_id);
+
+  const {reservation_id} = req.body.data;
+  const reservation = await reservationsService.read(reservation_id);
+
   if(reservation){
     res.locals.reservation = reservation;
     return next();
   }
-  next({ status: 404, message: "Reservation cannot be found" });
+  next({ status: 404, message: `Reservation ${reservation_id}  cannot be found` });
 }
 
-//validate that table body has data
+//validate that request body has data property
 
 function hasData(req, res, next){
 
@@ -39,6 +43,16 @@ function hasData(req, res, next){
     return next()
   }
   next({status: 400, message: "Body must have data property"})
+}
+
+//validate that request has reservation_id property
+
+function hasReservationId(req,res,next){
+  const {data} = req.body;
+  if(!data.reservation_id){
+    return next({ status: 400, message: "Body must have reservation_id property" });
+  }
+  next();
 }
 
 //validate that body has required properties
@@ -50,11 +64,12 @@ const hasRequiredProperties = hasProperties(requiredProperties);
 function tableNameIsValid(req, res, next){
 
   const tableName = req.body.data.table_name;
+
   if(tableName.length < 2){
     return next({
       status: 400,
-      message: "Table name must be at least 2 characters long"
-    })
+      message: "table_name must be at least 2 characters long",
+    });
   }
   next()
 }
@@ -62,14 +77,24 @@ function tableNameIsValid(req, res, next){
 //validate that table capacity is at least 1 person
 
 function validCapacity(req, res, next){
+
   const tableCapacity = req.body.data.capacity;
 
-  if(tableCapacity < 1){
+  if (!Number.isInteger(tableCapacity)) {
+    return next({
+      status: 400,
+      message: "Table capacity must be a number",
+    });
+  }
+
+  if(tableCapacity < 1 ){
     return next({
       status: 400,
       message: "Table capacity must be at least 1"
     })
   }
+
+  
   next()
 }
 
@@ -83,11 +108,13 @@ function tableCanFitAllPeople(req, res, next){
   if(tableCapacity < numberOfPeopleInReservation){
     return next({
       status: 400,
-      message: `This table can only fit ${tableCapacity} people. Please choose a bigger table.`
+      message: `This table's capacity is ${tableCapacity} people. Please choose a bigger table.`
     })
   }
   next();
 }
+
+
 
 //validate that table is not occupied
 function tableIsFree(req, res, next){
@@ -101,6 +128,8 @@ function tableIsFree(req, res, next){
   }
   next()
 }
+
+
 
 
 //CRUDL functions
@@ -145,6 +174,8 @@ module.exports = {
   ],
   list: asyncErrorBoundary(list),
   update: [
+    hasData,
+    hasReservationId,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(reservationExists),
     tableCanFitAllPeople,

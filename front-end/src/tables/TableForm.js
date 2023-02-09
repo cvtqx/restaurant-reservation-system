@@ -18,7 +18,7 @@ const TableForm = ({ submitHandler, cancelHandler, changeHandler, formData }) =>
           value={formData.table_name}
           onChange={changeHandler}
           placeholder="Table name"
-          minLength={2}
+
         />
       </div>
       <div className="mb-3">
