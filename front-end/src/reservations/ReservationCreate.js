@@ -33,7 +33,7 @@ const ReservationCreate = () => {
 
         event.preventDefault();
         setError(null);
-      //TO DO try adding validation here before sending a request to API  
+      
         const abortController = new AbortController();
         reservation.people = Number(reservation.people);
         

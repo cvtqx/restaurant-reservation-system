@@ -18,7 +18,10 @@ async function tableExists(req, res, next){
     res.locals.table = table;
     return next();
   }
-  next({status: 404, message: "Table cannot be found"})
+  next({
+    status: 404,
+    message: `Table ${req.params.table_id} cannot be found`,
+  });
 }
 
 //validate that reservation exists
@@ -116,8 +119,8 @@ function tableCanFitAllPeople(req, res, next){
 
 
 
-//validate that table is not occupied
-function tableIsFree(req, res, next){
+//validate that table is occupied
+function tableIsOccupied(req, res, next){
   const table = res.locals.table;
 
   if(table.reservation_id){
@@ -125,6 +128,20 @@ function tableIsFree(req, res, next){
       status: 400,
       message: "This table is already occupied. Please choose a different table."
     })
+  }
+  next()
+}
+
+//validate that table is not occupied
+function tableIsUnoccupied(req, res, next){
+  const table = res.locals.table;
+
+  if(!table.reservation_id){
+    return next({
+      status: 400,
+      message:
+        "This table is not occupied.",
+    });
   }
   next()
 }
@@ -143,14 +160,6 @@ async function create(req, res) {
 
 }
 
-async function list(req, res){
-
-    const data = await service.list();
-    
-    res.json({
-        data,
-    })
-}
 
 async function update(req, res, next){
 
@@ -164,6 +173,28 @@ async function update(req, res, next){
 
 }
 
+//finish table - update current tables's reservation_id to null
+
+async function finish(req, res, next){
+
+  const table = res.locals.table;
+  const updatedTable = {
+    ...table,
+    reservation_id: null
+  }
+
+  const data = await service.update(updatedTable);
+  res.json({data});
+}
+
+async function list(req, res) {
+  const data = await service.list();
+
+  res.json({
+    data,
+  });
+}
+
 module.exports = {
   create: [
     hasData,
@@ -172,14 +203,15 @@ module.exports = {
     validCapacity,
     asyncErrorBoundary(create),
   ],
-  list: asyncErrorBoundary(list),
   update: [
     hasData,
     hasReservationId,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(reservationExists),
     tableCanFitAllPeople,
-    tableIsFree,
+    tableIsOccupied,
     asyncErrorBoundary(update),
   ],
+  delete: [asyncErrorBoundary(tableExists), tableIsUnoccupied, asyncErrorBoundary(finish)],
+  list: asyncErrorBoundary(list),
 };
