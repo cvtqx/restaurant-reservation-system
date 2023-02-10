@@ -120,7 +120,7 @@ function Dashboard({ date }) {
 
       <ErrorAlert error={reservationsError} />
       
-      <ReservationsList reservations={reservations} />
+      <ReservationsList reservations={reservations} date={currentDate}/>
 
       <TablesList  tables={tables} error={tablesError} />
     </main>

@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 
-const ReservationsList = ({reservations}) => {
+const ReservationsList = ({reservations, date}) => {
 
     const tableRows = reservations.map((reservation) => (
       <tr key={reservation.reservation_id}>
@@ -12,13 +13,20 @@ const ReservationsList = ({reservations}) => {
         <td>{reservation.reservation_date}</td>
         <td>{reservation.reservation_time}</td>
         <td>{reservation.people}</td>
-        <td>{reservation.created_at}</td>
+        <td data-reservation-id-status={reservation.reservation_id}>
+          {reservation.status}
+        </td>
         <td>
-          <a href={`/reservations/${reservation.reservation_id}/seat`}>Seat</a>
+          {reservation.status === "booked" && (
+            <Link className ="btn btn-primary" to={`/reservations/${reservation.reservation_id}/seat`}>
+              Seat
+            </Link>
+          )}
         </td>
       </tr>
     ));
 
+    if(reservations.length >0){
   return (
     <div>
       <table className="table">
@@ -31,7 +39,7 @@ const ReservationsList = ({reservations}) => {
             <th scope="col">Date</th>
             <th scope="col">Time</th>
             <th scope="col">Number of people</th>
-            <th scope="col">Created</th>
+            <th scope="col">Status</th>
             <th scope="col">Action</th>
           </tr>
         </thead>
@@ -39,6 +47,8 @@ const ReservationsList = ({reservations}) => {
       </table>
     </div>
   );
+    }
+    return <h6> {`No reservations found for ${date}`}.</h6>
 }
 
 export default ReservationsList

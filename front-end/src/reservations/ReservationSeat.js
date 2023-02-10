@@ -5,7 +5,11 @@ import { useParams, useHistory } from "react-router";
 import ErrorAlert from "../layout/ErrorAlert";
 
 //import utility functions
-import { listTables, seatReservation } from "../utils/api";
+import {
+  listTables,
+  seatReservation,
+  //updateReservationStatus,
+} from "../utils/api";
 
 
 const ReservationSeat = () => {
@@ -38,7 +42,8 @@ const ReservationSeat = () => {
     const reservationId = Number(reservation_id);
 
     try{
-        await seatReservation(tableId, reservationId, abortController.signal)
+        await seatReservation(tableId, reservationId, abortController.signal);
+        //await updateReservationStatus(reservationId);
         history.push("/");
     } catch(error){ 
         setError(error)

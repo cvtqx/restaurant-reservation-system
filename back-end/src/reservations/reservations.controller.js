@@ -55,7 +55,7 @@ function peopleIsNumber(req, res, next){
   if(!Number.isInteger(people)){
     return next({
       status: 400,
-      message: "'People' must be a number"
+      message: "people must be a number"
     });
   }
   next();
@@ -159,7 +159,7 @@ async function reservationExists(req, res, next){
     res.locals.reservation = reservation;
     return next();
   }
-  next({ status: 404, message: `Reservation ${reservation.reservation_id}  cannot be found` });
+  next({ status: 404, message: `Reservation ${req.params.reservation_id}  cannot be found` });
 }
 
 //CRUDL functions
@@ -195,6 +195,8 @@ function read(req, res){
   
   res.json({data: res.locals.reservation})
 }
+
+//async function update()
 
 module.exports = {
   list: asyncErrorBoundary(list),
