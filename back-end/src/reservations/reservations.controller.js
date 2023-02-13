@@ -246,6 +246,16 @@ function read(req, res){
   res.json({data: res.locals.reservation})
 }
 
+async function update(req, res, next){
+  const updatedReservation={
+    ...req.body.data,
+    reservation_id: res.locals.reservation.reservation_id,
+  }
+  const data = await service.update(updatedReservation);
+  res.json({data})
+}
+
+
 async function updateStatus(req, res, next){
 
  const status = req.body.data.status;
@@ -276,6 +286,20 @@ module.exports = {
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  update: [
+    asyncErrorBoundary(reservationExists),
+    hasData,
+    hasRequiredProperties,
+    validNumberOfPeople,
+    peopleIsNumber,
+    validDateFormat,
+    validTimeFormat,
+    reservationOnTuesday,
+    reservationNotInPast,
+    bookedStatus,
+    reservationTimeFrameValid,
+    asyncErrorBoundary(update),
+  ],
   updateStatus: [
     asyncErrorBoundary(reservationExists),
     validStatus,
