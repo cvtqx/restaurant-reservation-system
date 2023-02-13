@@ -138,9 +138,8 @@ function reservationTimeFrameValid(req, res, next){
 
       const date = new Date(`${resDate}, ${resTime}`);
 
-      const resTimeString = parseInt(`${date.getHours()}${date.getMinutes()}`)
 
-      if(resTimeString < 1030 || resTimeString > 2130){
+      if(date.getHours() <= 10 && date.getMinutes < 30 || date.getHours >= 21 && date.getMinutes() > 30){
         return next({
           status: 400,
           message: "Reservation must be made between 10:30am and 9:30pm",

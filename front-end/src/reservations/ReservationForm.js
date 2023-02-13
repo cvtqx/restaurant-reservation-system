@@ -68,7 +68,7 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             value={reservation.reservation_date}
             onChange={changeHandler}
             placeholder="YYYY-MM-DD"
-            //pattern="\d{4}-\d{2}-\d{2}"
+            pattern="\d{4}-\d{2}-\d{2}"
           />
         </div>
         <div className="mb-3">
