@@ -122,6 +122,9 @@ export async function seatReservation(table_id, reservation_id, signal){
 
 }
 
+
+//update res status to seated
+
 export async function updateReservationStatus(reservation_id, signal){
   const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
   const options={
@@ -131,6 +134,14 @@ export async function updateReservationStatus(reservation_id, signal){
     signal,
   };
   return await fetchJson(url, options, reservation_id)
+}
+
+//update reservation status to cancelled
+
+export async function cancelReservation(reservation_id, signal){
+  const url = new URL(`${API_BASE_URL}/reservations/${reservation_id}/status`);
+  const options ={method: "PUT", headers, body:JSON.stringify({data: { status: "cancelled" } }), signal};
+  return await fetchJson(url, options)
 }
 
 
@@ -149,4 +160,7 @@ export async function searchReservations(mobile_number, signal){
     .then(formatReservationDate)
     .then(formatReservationTime);
 }
+
+
+
 

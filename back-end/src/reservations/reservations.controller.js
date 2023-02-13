@@ -168,7 +168,8 @@ async function reservationExists(req, res, next){
 const validStatusValues =[
   "booked",
   "seated",
-  "finished"
+  "finished",
+  "cancelled"
 ]
 
 function validStatus(req, res, next){

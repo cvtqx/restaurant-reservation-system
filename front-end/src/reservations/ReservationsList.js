@@ -1,10 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import ReservationCancel from "./ReservationCancel";
 
 
 const ReservationsList = ({reservations, date}) => {
 
     const tableRows = reservations.map((reservation) => (
+      (reservation.status === "booked" || reservation.status === "seated")&&
       <tr key={reservation.reservation_id}>
         <th scope="row">{reservation.reservation_id}</th>
         <td>{reservation.first_name}</td>
@@ -18,13 +20,26 @@ const ReservationsList = ({reservations, date}) => {
         </td>
         <td>
           {reservation.status === "booked" && (
-            <Link className ="btn btn-primary" to={`/reservations/${reservation.reservation_id}/seat`}>
+            <Link
+              className="btn btn-primary"
+              to={`/reservations/${reservation.reservation_id}/seat`}
+            >
               Seat
             </Link>
           )}
         </td>
+        <td className="btn-group" role="group">
+          <a
+            className="btn btn-primary"
+          href={`/reservations/${reservation.reservation_id}/edit`}
+          >
+            Edit
+          </a>
+          <ReservationCancel reservation_id = {reservation.reservation_id}/>
+        </td>
       </tr>
     ));
+
 
     if(reservations.length >0){
   return (
@@ -41,6 +56,7 @@ const ReservationsList = ({reservations, date}) => {
             <th scope="col">Number of people</th>
             <th scope="col">Status</th>
             <th scope="col">Action</th>
+            <th scope="col"></th>
           </tr>
         </thead>
         <tbody>{tableRows}</tbody>
