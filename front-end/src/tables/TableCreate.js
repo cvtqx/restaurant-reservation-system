@@ -9,7 +9,7 @@ import ErrorAlert from '../layout/ErrorAlert';
 
 import {createTable} from "../utils/api";
 
-export const TableCreate = () => {
+ const TableCreate = () => {
 
     const history = useHistory();
 
@@ -75,3 +75,5 @@ export const TableCreate = () => {
     </main>
   );
 }
+
+export default TableCreate;

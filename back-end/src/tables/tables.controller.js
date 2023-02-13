@@ -146,6 +146,20 @@ function tableIsUnoccupied(req, res, next){
   next()
 }
 
+//validate that table isnot already seated
+
+function isSeated(req, res, next){
+  const {status} = res.locals.reservation;
+
+  if(status === "seated"){
+      return next({
+        status: 400,
+        message: "This reservation is already seated"
+      })
+  }
+  next()
+}
+
 
 
 
@@ -160,7 +174,7 @@ async function create(req, res) {
 
 }
 
-
+//change reservation status to seated
 async function update(req, res, next){
 
   const updatedTable ={
@@ -174,6 +188,7 @@ async function update(req, res, next){
 }
 
 //finish table - update current tables's reservation_id to null
+//TO DO: update reservation status to finished
 
 async function finish(req, res, next){
 
@@ -183,7 +198,7 @@ async function finish(req, res, next){
     reservation_id: null
   }
 
-  const data = await service.update(updatedTable);
+  const data = await service.update(updatedTable);//to do create service.finishTable
   res.json({data});
 }
 
@@ -208,6 +223,7 @@ module.exports = {
     hasReservationId,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(reservationExists),
+    isSeated,
     tableCanFitAllPeople,
     tableIsOccupied,
     asyncErrorBoundary(update),

@@ -162,6 +162,52 @@ async function reservationExists(req, res, next){
   next({ status: 404, message: `Reservation ${req.params.reservation_id}  cannot be found` });
 }
 
+//validate the status of reservation
+
+
+const validStatusValues =[
+  "booked",
+  "seated",
+  "finished"
+]
+
+function validStatus(req, res, next){
+  const {status} = req.body.data;
+  if(!validStatusValues.includes(status)){
+    return next({status: 400, message: "unknown status"})
+  }
+  next()
+}
+
+//validate that reservation is not finished (a finished reservation cannot be updated)
+
+function notFinished(req, res, next){
+
+  const {status} = res.locals.reservation;
+
+  if(status !== "booked" && status !== "seated"){
+    return next({
+      status: 400,
+      message: "A finished reservation cannot be updated"
+    })
+  }
+  next()
+}
+
+//validate that reservation has booked status
+
+function bookedStatus(req, res, next){
+  const {status} = req.body.data;
+
+  if(status && status !== "booked"){
+    return next({
+      status: 400,
+      message: `cannot make reservations for ${status} status`
+    })
+  }
+  next();
+}
+
 //CRUDL functions
 //create new reservation
 
@@ -174,13 +220,16 @@ async function create(req, res){
   })
 }
 
-//list reservations
+//list reservations for a date and a mobile number
 async function list(req, res) {
 
-  const reservationDate = req.query.date;
+  const {date, mobile_number} = req.query;
 
-  if(reservationDate){
-    const data = await service.listByDate(reservationDate);
+  if(date){
+    const data = await service.listByDate(date);
+    res.json({data})
+  }else if(mobile_number){
+    const data = await service.search(mobile_number)
     res.json({data})
   }else{
 
@@ -196,10 +245,22 @@ function read(req, res){
   res.json({data: res.locals.reservation})
 }
 
-//async function update()
+async function updateStatus(req, res, next){
+
+ const status = req.body.data.status;
+ const {reservation_id} = res.locals.reservation;
+
+ const updatedReservation = {
+  reservation_id: reservation_id,
+  status: status
+ }
+
+ const data = await service.updateStatus(updatedReservation);
+ res.json({data})
+}
+
 
 module.exports = {
-  list: asyncErrorBoundary(list),
   create: [
     hasData,
     hasRequiredProperties,
@@ -209,8 +270,16 @@ module.exports = {
     validTimeFormat,
     reservationOnTuesday,
     reservationNotInPast,
+    bookedStatus,
     reservationTimeFrameValid,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
+  updateStatus: [
+    asyncErrorBoundary(reservationExists),
+    validStatus,
+    notFinished,
+    asyncErrorBoundary(updateStatus),
+  ],
+  list: asyncErrorBoundary(list),
 };

@@ -130,7 +130,7 @@ export async function updateReservationStatus(reservation_id, signal){
     body: JSON.stringify({data: {status: "seated"}}),
     signal,
   };
-  return await fetchJson(url, options, {})
+  return await fetchJson(url, options, reservation_id)
 }
 
 export async function finishTable(table_id, signal){
@@ -139,4 +139,12 @@ export async function finishTable(table_id, signal){
   return await fetchJson(url, options, {});
 }
 
+//search reservations by mobile number
+
+export async function searchReservations(mobile_number, signal){
+  const url = new URL(`${API_BASE_URL}/reservations?mobile_number=${mobile_number}`);
+  return await fetchJson(url, { signal })
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
 
