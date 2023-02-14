@@ -136,13 +136,20 @@ function reservationTimeFrameValid(req, res, next){
       const resTime = req.body.data.reservation_time;
       const resDate = req.body.data.reservation_date;
 
-      const date = new Date(`${resDate}, ${resTime}`);
+      const date = new Date(`${resDate} ${resTime}`);
 
 
-      if(date.getHours() <= 10 && date.getMinutes < 30 || date.getHours >= 21 && date.getMinutes() > 30){
+      if(date.getHours() < 10 || (date.getHours() === 10 && date.getMinutes < 30)) {
+        
         return next({
           status: 400,
-          message: "Reservation must be made between 10:30am and 9:30pm",
+          message: "The earliest reservation time is 10:30am",
+        });
+      }
+      if(date.getHours() > 21 || (date.getHours === 21 && date.getMinutes() > 30)){
+        return next({
+          status: 400,
+          message: "The latestest reservation time is 9:30pm",
         });
       }
   next();
