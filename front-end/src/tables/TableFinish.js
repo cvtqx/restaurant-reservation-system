@@ -25,7 +25,7 @@ const TableFinish = ({table}) => {
             if (confirmation) {
               try{
               await finishTable(table.table_id, abortController.signal);
-              //TO DO : refresh the list of tables - not sure about this one - test does not pass
+              //TO DO get request to list updated tables
               history.push("/"); 
               }
               catch(error){
