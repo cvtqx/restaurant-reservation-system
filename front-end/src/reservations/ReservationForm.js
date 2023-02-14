@@ -1,4 +1,6 @@
-import React from 'react'
+import React from 'react';
+
+
 
 const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandler}) => {
 
@@ -86,7 +88,6 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             onChange={changeHandler}
             placeholder="HH:MM"
             pattern="[0-9]{2}:[0-9]{2}"
-        
           />
         </div>
         <div className="mb-3">

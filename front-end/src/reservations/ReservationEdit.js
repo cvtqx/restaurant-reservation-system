@@ -4,6 +4,7 @@ import { useHistory, useParams } from 'react-router';
 //import utility functions
 
 import { readReservation, updateReservation } from '../utils/api';
+import {formatAsDate} from '../utils/date-time';
 
 //import components
 
@@ -52,7 +53,9 @@ const submitHandler = async(event) =>{
 
     try{
         const response = await updateReservation(reservation, abortController.signal);
-        history.push(`/dashboard?date=${response.reservation_date}`);
+        history.push(
+          `/dashboard?date=${formatAsDate(response.reservation_date)}`
+        );
     }
     catch(error){
         setError(error)
