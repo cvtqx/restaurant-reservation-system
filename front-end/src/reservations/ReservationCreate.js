@@ -3,6 +3,7 @@ import {useHistory} from "react-router-dom";
 
 //import utility functions
 import {createReservation} from "../utils/api";
+import { formatAsDate } from "../utils/date-time";
 
 //import components
 import ErrorAlert from "../layout/ErrorAlert";
@@ -40,7 +41,9 @@ const ReservationCreate = () => {
         try{
           const response = await createReservation(reservation, abortController.signal);
           console.log(response)
-          history.push(`/dashboard?date=${response.reservation_date}`);
+          history.push(
+            `/dashboard?date=${formatAsDate(response.reservation_date)}`
+          );
         }
         catch(error){
           //console.log(error)

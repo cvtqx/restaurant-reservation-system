@@ -107,7 +107,7 @@ function Dashboard({ date }) {
           className="btn btn-outline-primary"
           onClick={() => {
             history.push(`/dashboard?date=${next(currentDate)}`);
-            setCurrentDate(next(date));
+            setCurrentDate(next(currentDate));
           }}
         >
           Next day
@@ -115,7 +115,7 @@ function Dashboard({ date }) {
       </div>
 
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for today</h4>
+        <h4 className="mb-0">Reservations for {currentDate}</h4>
       </div>
 
       <ErrorAlert error={reservationsError} />
