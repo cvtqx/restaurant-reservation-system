@@ -174,12 +174,32 @@ async function create(req, res) {
 
 }
 
-//change reservation status to seated
+function read(req, res){
+  const data = res.locals.table;
+  res.json({data})
+}
+
+//update reservation status to seated
+
+async function updateResStatusToSeated(req, res, next){
+
+  if(res.locals.reservation.status === "seated"){
+    return next({status:400, message: "This reservation is already seated"})
+  }
+  const updatedReservation ={
+    ...res.locals.reservation,
+    status: "seated"
+  }
+  const data = await reservationsService.update(updatedReservation)
+  res.json({data})
+}
+
+//update table by assinging a reservation id to it
 async function update(req, res, next){
 
   const updatedTable ={
-    table_id: res.locals.table.table_id,
-    reservation_id: res.locals.reservation.reservation_id,   
+     ...res.locals.table,
+    reservation_id: req.body.data.reservation_id,   
   };
 
   const data = await service.update(updatedTable);
@@ -187,18 +207,26 @@ async function update(req, res, next){
 
 }
 
-//finish table - update current tables's reservation_id to null
-//TO DO: update reservation status to finished
+
 
 async function finish(req, res, next){
 
-  const table = res.locals.table;
+  const table = await service.read(req.params.table_id);
+
+  const reservation = await reservationsService.read(table.reservation_id);
+
   const updatedTable = {
     ...table,
     reservation_id: null
   }
 
-  const data = await service.update(updatedTable);//to do create service.finishTable
+  const updatedReservation ={
+    ...reservation,
+    status: "finished"
+  }
+  await reservationsService.update(updatedReservation);
+  const data = await service.update(updatedTable);
+
   res.json({data});
 }
 
@@ -218,6 +246,7 @@ module.exports = {
     validCapacity,
     asyncErrorBoundary(create),
   ],
+  read: [asyncErrorBoundary(tableExists), read],
   update: [
     hasData,
     hasReservationId,
@@ -226,6 +255,7 @@ module.exports = {
     isSeated,
     tableCanFitAllPeople,
     tableIsOccupied,
+    updateResStatusToSeated,
     asyncErrorBoundary(update),
   ],
   delete: [asyncErrorBoundary(tableExists), tableIsUnoccupied, asyncErrorBoundary(finish)],

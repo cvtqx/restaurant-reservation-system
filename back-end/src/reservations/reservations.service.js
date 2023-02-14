@@ -29,17 +29,20 @@ function updateStatus(updatedReservation){
 
 function list(){
     return knex("reservations")
-    .select("*")
-    .orderBy("reservation_date")
+      .select("*")
+      .whereNot({ status: "finished" })
+      .orderBy("reservation_date", "asc")
+      .orderBy("reservation_time", "asc");
 }
 
 
 //list reservations by date
 function listByDate(reservation_date){
     return knex("reservations")
-    .select("*")
-    .where({reservation_date})
-    .orderBy("reservation_time", "asc");
+      .select("*")
+      .where({ reservation_date })
+      .whereNot({ status: "finished" })
+      .orderBy("reservation_time", "asc");
 }
 
 function search(mobile_number) {
