@@ -10,7 +10,7 @@ import ReservationsList from './ReservationsList';
 
 const ReservationSearch = () => {
      
-    const [inputData, setInputData] = useState({mobile_number: ""});
+    const [inputData, setInputData] = useState("");
     const [error, setError] = useState(null);
     const [reservations, setReservations] = useState([]);
 
@@ -18,21 +18,24 @@ const ReservationSearch = () => {
         event.preventDefault();
         setError(null);
         
-
         const abortController = new AbortController();
         try{
             const response = await searchReservations(inputData, abortController.signal);
             
             setReservations( response);
-            setInputData({ mobile_number: "" });    
+            setInputData("");    
 
         }catch(error){
-            setError(error)
+            if (error.name !== "AbortError") {
+              setError(error);
+            }
         }
         return () => abortController.abort();
     }
 
-     const changeHandler = (event) =>setInputData(event.target.value);
+     const changeHandler = (event) =>{
+      setInputData(event.target.value);
+     }
 
      
      
@@ -51,7 +54,7 @@ const ReservationSearch = () => {
           aria-label="mobile_number"
           aria-describedby="basic-addon2"
           required={true}
-          value={inputData.mobile_number}
+          value={inputData}
           onChange={changeHandler}
         />
         <button className="btn btn-primary" id="basic-addon2" type="submit">

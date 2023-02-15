@@ -40,14 +40,16 @@ const ReservationCreate = () => {
         
         try{
           const response = await createReservation(reservation, abortController.signal);
-          console.log(response)
+          
           history.push(
             `/dashboard?date=${formatAsDate(response.reservation_date)}`
           );
         }
         catch(error){
-          //console.log(error)
-            setError(error)          
+          
+           if (error.name !== "AbortError") {
+             setError(error);
+           }         
         }
         return ()=> abortController.abort();
               

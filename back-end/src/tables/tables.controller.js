@@ -179,22 +179,10 @@ function read(req, res){
   res.json({data})
 }
 
-//update reservation status to seated
 
-async function updateResStatusToSeated(req, res, next){
 
-  if(res.locals.reservation.status === "seated"){
-    return next({status:400, message: "This reservation is already seated"})
-  }
-  const updatedReservation ={
-    ...res.locals.reservation,
-    status: "seated"
-  }
-  const data = await reservationsService.updateStatus(updatedReservation)
-  res.json({data})
-}
+//update table by assinging a reservation id to it and changes reservation status to seated
 
-//update table by assinging a reservation id to it
 async function update(req, res, next){
 
   const updatedTable ={
@@ -203,6 +191,13 @@ async function update(req, res, next){
     reservation_id: res.locals.reservation.reservation_id,   
   };
 
+  const updatedReservation = {
+    ...res.locals.reservation,
+    reservation_id: res.locals.reservation.reservation_id,
+    status: "seated"
+  };
+
+  await reservationsService.update(updatedReservation);
   const data = await service.update(updatedTable);
   res.json({data});
 
@@ -257,7 +252,6 @@ module.exports = {
     tableCanFitAllPeople,
     tableIsOccupied,
     asyncErrorBoundary(update),
-    //asyncErrorBoundary(updateResStatusToSeated),
   ],
   delete: [
     asyncErrorBoundary(tableExists),

@@ -16,20 +16,28 @@ const ReservationEdit = () => {
   const history = useHistory();
 
   const { reservation_id } = useParams();
-  const [reservation, setReservation] = useState([]);
+  const [reservation, setReservation] = useState({});
   const [error, setError] = useState(null);
 
   //load reservation
 
   useEffect(() => {
-    
+    setReservation({});
 
-    async function loadReservation() {
+    const abortController = new AbortController();
      
-        const loadedReservation = await readReservation(reservation_id);
-        setReservation(loadedReservation);
+    async function loadReservation() {
+     try{
+      const loadedReservation = await readReservation(reservation_id, abortController.signal);
+      setReservation(loadedReservation);
+     }catch(error){
+      if(error.name !== "AbortError"){
+        setError(error)
+      }
+     }
     }
     loadReservation();
+    return () => abortController.abort();
   }, [reservation_id]);
 
 
@@ -58,7 +66,9 @@ const submitHandler = async(event) =>{
         );
     }
     catch(error){
-        setError(error)
+        if (error.name !== "AbortError") {
+          setError(error);
+        }
     }
     return () => abortController.abort();
 }
@@ -68,7 +78,7 @@ const cancelHandler = ()=>{
     history.goBack();
 }
 
- 
+ if(reservation.reservation_id){
   return (
     <div>
       <h4>Edit reservation {reservation.reservation_id}</h4>
@@ -81,6 +91,8 @@ const cancelHandler = ()=>{
       />
     </div>
   );
+ }
+ return "Loading..."
 }
 
 export default ReservationEdit
