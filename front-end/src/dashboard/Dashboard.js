@@ -75,54 +75,60 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-
-      <div
-        className="btn-group"
-        role="group"
-        aria-label="Basic outlined example"
-      >
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={() => {
-            history.push(`/dashboard?date=${previous(currentDate)}`);
-            setCurrentDate(previous(currentDate));
-          }}
+      <div className="jumbotron text-center">
+        <h1>Dashboard</h1>
+        <div
+          className="btn-group"
+          role="group"
+          aria-label="Basic outlined example"
         >
-          Previous day
-        </button>
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={() => {
-            history.push(`/dashboard?date=${today(currentDate)}`);
-            setCurrentDate(today(currentDate));
-          }}
-        >
-          Today
-        </button>
-        <button
-          type="button"
-          className="btn btn-outline-primary"
-          onClick={() => {
-            history.push(`/dashboard?date=${next(currentDate)}`);
-            setCurrentDate(next(currentDate));
-          }}
-        >
-          Next day
-        </button>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => {
+              history.push(`/dashboard?date=${previous(currentDate)}`);
+              setCurrentDate(previous(currentDate));
+            }}
+          >
+            Previous day
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => {
+              history.push(`/dashboard?date=${today(currentDate)}`);
+              setCurrentDate(today(currentDate));
+            }}
+          >
+            Today
+          </button>
+          <button
+            type="button"
+            className="btn btn-outline-primary"
+            onClick={() => {
+              history.push(`/dashboard?date=${next(currentDate)}`);
+              setCurrentDate(next(currentDate));
+            }}
+          >
+            Next day
+          </button>
+        </div>
       </div>
 
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {currentDate}</h4>
+      <div className="container">
+        <div className="row d-md-flex mb-3">
+          <h4 className="mb-10 text-center text-nowrap">
+            Reservations for {currentDate}
+          </h4>
+
+          <ErrorAlert error={reservationsError} />
+
+          <ReservationsList reservations={reservations} date={currentDate} />
+        </div>
+        <div className="row d-md-flex mb-3">
+          <TablesList tables={tables} error={tablesError} />
+        </div>
       </div>
-
-      <ErrorAlert error={reservationsError} />
-      
-      <ReservationsList reservations={reservations} date={currentDate}/>
-
-      <TablesList  tables={tables} error={tablesError} />
     </main>
   );
 }

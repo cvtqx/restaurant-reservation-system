@@ -62,10 +62,14 @@ const ReservationSeat = () => {
   };
 
   return (
-    <div>
-      <ErrorAlert error={error} />
+    <div className="container">
+      <div className="row">
+        <ErrorAlert error={error} />
+      </div>
       <form onSubmit={submitHandler}>
-        <h4>Seat reservation number {reservation_id}</h4>
+        <h4 className="text-center">
+          Seat reservation number {reservation_id}
+        </h4>
         <label htmlFor="table_id">Table number:</label>
         <select
           id="table_id"
@@ -79,7 +83,6 @@ const ReservationSeat = () => {
               {table.table_name} - {table.capacity}
             </option>
           ))}
-          
         </select>
 
         <button type="submit" className="btn btn-primary">
@@ -95,6 +98,10 @@ const ReservationSeat = () => {
       </form>
     </div>
   );
+  
+
+      
+     
 }
 
 export default ReservationSeat

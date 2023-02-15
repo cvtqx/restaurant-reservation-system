@@ -81,7 +81,7 @@ const cancelHandler = ()=>{
  if(reservation.reservation_id){
   return (
     <div>
-      <h4>Edit reservation {reservation.reservation_id}</h4>
+      <h1>Edit reservation {reservation.reservation_id}</h1>
       <ErrorAlert error={error} />
       <ReservationForm
         reservation={reservation}

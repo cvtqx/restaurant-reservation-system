@@ -42,31 +42,44 @@ const ReservationSearch = () => {
 
   return (
     <main>
-    <h4>Search for a reservation</h4>
-    <ErrorAlert error={error} />
-    <form onSubmit={submitHandler}>
-      <div className="input-group mb-3">
-        <input
-          type="tel"
-          className="form-control"
-          name="mobile_number"
-          placeholder="Enter customer's phone number"
-          aria-label="mobile_number"
-          aria-describedby="basic-addon2"
-          required={true}
-          value={inputData}
-          onChange={changeHandler}
-        />
-        <button className="btn btn-primary" id="basic-addon2" type="submit">
-          Find
-        </button>
+      <div className="form-group">
+        <h1 className="text-center">Find reservation</h1>
+
+        <ErrorAlert error={error} />
+        <form onSubmit={submitHandler}>
+          <div className="input-group mb-3">
+            <input
+              type="tel"
+              className="form-control"
+              name="mobile_number"
+              placeholder="Enter customer's phone number"
+              aria-label="mobile_number"
+              aria-describedby="basic-addon2"
+              required={true}
+              value={inputData}
+              onChange={changeHandler}
+            />
+            <button className="btn btn-primary" id="basic-addon2" type="submit">
+              Find
+            </button>
+          </div>
+          
+        </form>
       </div>
-    </form>
-    <h4>Search Result</h4>
-    {reservations.length > 0 ?
-    (<ReservationsList reservations={reservations} />):
-    "No reservations found"
-    }
+
+      <div className="container">
+        <h4 className="text-center">Search Result</h4>
+       
+          {reservations.length > 0 ? (
+             <div className="row">
+            <ReservationsList reservations={reservations} />
+            </div>
+          ) : (
+            <div className="alert alert-dark text-center" role="alert">
+            No reservations found</div>
+          )}
+        </div>
+      
     </main>
   );
 

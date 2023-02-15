@@ -20,23 +20,23 @@ const TablesList = ({tables}) => {
 
 
   return (
-    <main>
-      <h4>Tables List</h4>
-      <table className="table">
-        <thead>
+    <div className="container">
+      <h4 className="text-center">Tables</h4>
+      <div className="table-responsive">
+        <table className="table table-hover">
+          <thead>
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Table name</th>
-                <th scope="col">Capacity</th>
-                <th scope="col">Table status</th>
-                <th scope="col">Action</th>
+              <th scope="col">#</th>
+              <th scope="col">Table name</th>
+              <th scope="col">Capacity</th>
+              <th scope="col">Table status</th>
+              <th scope="col">Action</th>
             </tr>
-        </thead>
-        <tbody>
-            {tableRows}
-        </tbody>
-      </table>
-    </main>
+          </thead>
+          <tbody>{tableRows}</tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 
