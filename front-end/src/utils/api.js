@@ -136,7 +136,7 @@ export async function seatReservation(table_id, reservation_id, signal){
   const options = {
     method: "PUT",
     headers,
-    body: JSON.stringify({ data: { reservation_id } }),
+    body: JSON.stringify({ data: { reservation_id} }),
     signal,
 };
 

@@ -190,7 +190,7 @@ async function updateResStatusToSeated(req, res, next){
     ...res.locals.reservation,
     status: "seated"
   }
-  const data = await reservationsService.update(updatedReservation)
+  const data = await reservationsService.updateStatus(updatedReservation)
   res.json({data})
 }
 
@@ -199,7 +199,8 @@ async function update(req, res, next){
 
   const updatedTable ={
      ...res.locals.table,
-    reservation_id: req.body.data.reservation_id,   
+    table_id: res.locals.table.table_id,
+    reservation_id: res.locals.reservation.reservation_id,   
   };
 
   const data = await service.update(updatedTable);
@@ -255,9 +256,13 @@ module.exports = {
     isSeated,
     tableCanFitAllPeople,
     tableIsOccupied,
-    updateResStatusToSeated,
     asyncErrorBoundary(update),
+    //asyncErrorBoundary(updateResStatusToSeated),
   ],
-  delete: [asyncErrorBoundary(tableExists), tableIsUnoccupied, asyncErrorBoundary(finish)],
+  delete: [
+    asyncErrorBoundary(tableExists),
+    tableIsUnoccupied,
+    asyncErrorBoundary(finish),
+  ],
   list: asyncErrorBoundary(list),
 };

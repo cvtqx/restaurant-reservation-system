@@ -139,17 +139,17 @@ function reservationTimeFrameValid(req, res, next){
       const date = new Date(`${resDate} ${resTime}`);
 
 
-      if(date.getHours() < 10 || (date.getHours() === 10 && date.getMinutes < 30)) {
+      if(date.getHours() < 10 || (date.getHours() === 10 && date.getMinutes() < 30)) {
         
         return next({
           status: 400,
           message: "The earliest reservation time is 10:30am",
         });
       }
-      if(date.getHours() > 21 || (date.getHours === 21 && date.getMinutes() > 30)){
+      if(date.getHours() > 21 || (date.getHours() === 21 && date.getMinutes() > 30)){
         return next({
           status: 400,
-          message: "The latestest reservation time is 9:30pm",
+          message: "The latest reservation time is 9:30pm",
         });
       }
   next();

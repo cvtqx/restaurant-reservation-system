@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import ReservationCancel from "./ReservationCancel";
 
 
@@ -20,12 +19,12 @@ const ReservationsList = ({reservations, date}) => {
         </td>
         <td>
           {reservation.status === "booked" && (
-            <Link
+            <a
               className="btn btn-primary"
-              to={`/reservations/${reservation.reservation_id}/seat`}
+              href={`/reservations/${reservation.reservation_id}/seat`}
             >
               Seat
-            </Link>
+            </a>
           )}
         </td>
         <td className="btn-group" role="group">
