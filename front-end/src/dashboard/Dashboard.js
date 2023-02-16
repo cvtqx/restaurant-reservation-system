@@ -6,7 +6,6 @@ import { listReservations, listTables, finishTable } from "../utils/api";
 import  useQuery  from "../utils/useQuery";
 import { today, previous, next } from "../utils/date-time";
 
-
 //import components
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsList from "../reservations/ReservationsList";
@@ -19,13 +18,12 @@ import TablesList from "../tables/TablesList";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
 
   const history = useHistory();
   const query = useQuery();
   const route = useRouteMatch();
- 
-
   
   const [reservations, setReservations] = useState([]);
   const [reservationsError, setReservationsError] = useState(null);
@@ -35,7 +33,8 @@ function Dashboard({ date }) {
 
   useEffect(loadDashboard, [currentDate]);
 
-  //load reservations for current date
+  //load reservations for current date and all tables
+
   function loadDashboard() {
     const abortController = new AbortController();
     setReservationsError(null);
@@ -43,6 +42,7 @@ function Dashboard({ date }) {
       .then(setReservations)
       .catch(setReservationsError);
     listTables(abortController.signal).then(setTables).catch(setTablesError);
+    return () => abortController.abort();
   }
 
 //update date 
@@ -61,21 +61,10 @@ function Dashboard({ date }) {
     
   }, [query, route])
 
+//handler for table's finish button
 
-  // function loadTables() {
-  //   const abortController = new AbortController();
-  //   setTablesError(null);
-  //   listTables(abortController.signal).then(setTables).catch(setTablesError);
-  //   return () => abortController.abort();
-  // }
+     const finishButtonHandler = async (event, table_id) => {
 
-
-  // //load tables
-  // useEffect(loadTables, [])
-
-   
-
-     const clickHandler = async (event, table_id) => {
        event.preventDefault();
        setTablesError(null);
 
@@ -101,6 +90,9 @@ function Dashboard({ date }) {
     <main className="col-md-9 ms-sm-auto col-lg-10 px-md-4">
       <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 className="h2">Dashboard</h1>
+
+        {/* buttons to change the date*/}
+
         <div className="btn-toolbar mb-2 mb-md-0">
           <div className="btn-group me-2">
             <button
@@ -137,24 +129,33 @@ function Dashboard({ date }) {
         </div>
       </div>
 
-      
-        <div className="row d-md-flex mb-3">
-          <h4 className="mb-10 text-center text-nowrap">
-            Reservations for {currentDate}
-          </h4>
+      {/* reservations display*/}
 
-          <ErrorAlert error={reservationsError} />
-
+      <div className="row d-md-flex mb-3">
+        <h4 className="mb-10 text-center text-nowrap">
+          Reservations for {currentDate}
+        </h4>
+        <ErrorAlert error={reservationsError} />
+        {reservations ? (
           <ReservationsList reservations={reservations} date={currentDate} />
-        </div>
-        <div className="row d-md-flex mb-3">
+        ) : (
+          "Loading"
+        )}
+      </div>
+
+      {/* tables display*/}
+      
+      <div className="row d-md-flex mb-3">
+        {tables ? (
           <TablesList
             tables={tables}
             error={tablesError}
-            clickHandler={clickHandler}
+            clickHandler={finishButtonHandler}
           />
-        </div>
-      
+        ) : (
+          "Loading"
+        )}
+      </div>
     </main>
   );
 }

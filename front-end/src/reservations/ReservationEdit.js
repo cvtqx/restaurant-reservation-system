@@ -16,11 +16,11 @@ const ReservationEdit = () => {
   const history = useHistory();
 
   const { reservation_id } = useParams();
+
   const [reservation, setReservation] = useState({});
   const [error, setError] = useState(null);
 
   //load reservation
-
   useEffect(() => {
     setReservation({});
 

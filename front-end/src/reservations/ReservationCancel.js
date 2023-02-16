@@ -8,12 +8,10 @@ import {cancelReservation} from "../utils/api.js";
 
 const ReservationCancel = ({reservation_id}) => {
 
-   
-
     const [error, setError] = useState(null);
 
-
     const clickHandler = async(event) =>{
+      
        event.preventDefault();
        setError(null);
 
@@ -23,10 +21,12 @@ const ReservationCancel = ({reservation_id}) => {
         if(confirmation){
             try{
                await cancelReservation(reservation_id, abortController.signal)
-               window.location.reload();//reloads page
+               window.location.reload();
             }
             catch(error){
-                setError(error)
+                 if (error.name !== "AbortError") {
+                   setError(error);
+                 }  
             }
         }
         return () => abortController.abort();

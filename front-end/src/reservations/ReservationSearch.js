@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
 
-
 //import utility functions
 import { searchReservations } from '../utils/api';
 
@@ -37,9 +36,6 @@ const ReservationSearch = () => {
       setInputData(event.target.value);
      }
 
-     
-     
-
   return (
     <main>
       <div className="form-group">
@@ -62,8 +58,7 @@ const ReservationSearch = () => {
             <button className="btn btn-primary" id="basic-addon2" type="submit">
               Find
             </button>
-          </div>
-          
+          </div>         
         </form>
       </div>
 
@@ -78,8 +73,7 @@ const ReservationSearch = () => {
             <div className="alert alert-dark text-center" role="alert">
             No reservations found</div>
           )}
-        </div>
-      
+        </div>      
     </main>
   );
 

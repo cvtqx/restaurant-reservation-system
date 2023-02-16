@@ -37,6 +37,7 @@ function list(){
 
 
 //list reservations by date
+
 function listByDate(reservation_date){
     return knex("reservations")
       .select("*")
@@ -44,6 +45,9 @@ function listByDate(reservation_date){
       .whereIn("status", ["seated", "booked"])
       .orderBy("reservation_time", "asc");
 }
+
+
+//find reservations by mobile number
 
 function search(mobile_number) {
   return knex("reservations")

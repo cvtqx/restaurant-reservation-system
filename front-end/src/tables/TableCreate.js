@@ -6,7 +6,6 @@ import TableForm from './TableForm';
 import ErrorAlert from '../layout/ErrorAlert';
 
 //import utility functions
-
 import {createTable} from "../utils/api";
 
  const TableCreate = () => {
@@ -19,17 +18,15 @@ import {createTable} from "../utils/api";
     }
 
     const [formData, setFormData] = useState({...initialFormState});
-
     const [error, setError] = useState(null);
     
 
-    //cancel button handler
-    function cancelHandler(){
+  
+    const cancelHandler = () => {
         history.goBack();
     }
 
-    //submit button handler
-
+  
     const submitHandler = async (event) => {
 
         event.preventDefault();
@@ -37,25 +34,21 @@ import {createTable} from "../utils/api";
         const abortController= new AbortController();
         formData.capacity = Number(formData.capacity);
 
-
          try {
            await createTable(
              formData,
              abortController.signal
            );
-           //console.log(response)
            history.push("/");
          } catch (error) {
-           //console.log(error)
            setError(error);
          }
          return () => abortController.abort();
         
     }
 
-    //form change handler
-
-    function changeHandler({target: {name, value}}){
+    
+    const changeHandler = ({target: {name, value}}) => {
         setFormData((previousFormData) =>({
             ...previousFormData,
             [name]: value,

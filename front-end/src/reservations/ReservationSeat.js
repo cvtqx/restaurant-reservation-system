@@ -8,7 +8,6 @@ import ErrorAlert from "../layout/ErrorAlert";
 import {
   listTables,
   seatReservation,
-  //updateReservationStatus,
 } from "../utils/api";
 
 
@@ -21,8 +20,7 @@ const ReservationSeat = () => {
   const [tables, setTables] = useState([]);
   const [error, setError] = useState(null);
 
-
-  //load tables
+//load tables
   useEffect(() => {
     const abortController = new AbortController();
     setError(null);
@@ -31,28 +29,27 @@ const ReservationSeat = () => {
   }, [reservation_id]);
 
 
-
-
   const submitHandler = async(event) => {
 
     event.preventDefault();
     setError(null);
+
     const abortController = new AbortController();
+
     const tableId = Number(formData.table_id);
     const reservationId = Number(reservation_id);
 
     try{
         await seatReservation(tableId, reservationId, abortController.signal);
-        //await updateReservationStatus(reservationId);
         history.push("/");
     } catch(error){ 
-        setError(error)
+        if (error.name !== "AbortError") {
+          setError(error);
+        }
     }
     return () => abortController.abort();  
   };
 
-
-  //form change handler
 
   const changeHandler = ({ target: { name, value } }) => {
     setFormData((previousFormData) => ({

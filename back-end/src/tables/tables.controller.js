@@ -2,7 +2,7 @@
 const asyncErrorBoundary = require("../errors/asyncErrorBoundary");
 const hasProperties = require("../errors/hasProperties");
 
-//import service file
+//import service files
 const service = require("./tables.service");
 const reservationsService = require("../reservations/reservations.service");
 
@@ -50,8 +50,10 @@ function hasData(req, res, next){
 
 //validate that request has reservation_id property
 
-function hasReservationId(req,res,next){
+function hasReservationId(req, res, next){
+
   const {data} = req.body;
+
   if(!data.reservation_id){
     return next({ status: 400, message: "Body must have reservation_id property" });
   }
@@ -59,6 +61,7 @@ function hasReservationId(req,res,next){
 }
 
 //validate that body has required properties
+
 const requiredProperties = ["table_name", "capacity"];
 const hasRequiredProperties = hasProperties(requiredProperties);
 
@@ -77,7 +80,7 @@ function tableNameIsValid(req, res, next){
   next()
 }
 
-//validate that table capacity is at least 1 person
+//validate that table capacity is at least 1 person and is a number
 
 function validCapacity(req, res, next){
 
@@ -120,7 +123,9 @@ function tableCanFitAllPeople(req, res, next){
 
 
 //validate that table is occupied
+
 function tableIsOccupied(req, res, next){
+
   const table = res.locals.table;
 
   if(table.reservation_id){
@@ -133,7 +138,9 @@ function tableIsOccupied(req, res, next){
 }
 
 //validate that table is not occupied
+
 function tableIsUnoccupied(req, res, next){
+
   const table = res.locals.table;
 
   if(!table.reservation_id){
@@ -146,9 +153,10 @@ function tableIsUnoccupied(req, res, next){
   next()
 }
 
-//validate that table isnot already seated
+//validate that reservation is not already seated
 
 function isSeated(req, res, next){
+
   const {status} = res.locals.reservation;
 
   if(status === "seated"){
@@ -181,7 +189,7 @@ function read(req, res){
 
 
 
-//update table by assinging a reservation id to it and changes reservation status to seated
+//update table by assinging a reservation id to it and change reservation status to seated
 
 async function update(req, res, next){
 
@@ -198,12 +206,14 @@ async function update(req, res, next){
   };
 
   await reservationsService.update(updatedReservation);
+
   const data = await service.update(updatedTable);
   res.json({data});
 
 }
 
 
+//change table's reservation_id to null and reservation's status to finished
 
 async function finish(req, res, next){
 
@@ -220,6 +230,7 @@ async function finish(req, res, next){
     ...reservation,
     status: "finished"
   }
+
   await reservationsService.update(updatedReservation);
   const data = await service.update(updatedTable);
 
@@ -227,6 +238,7 @@ async function finish(req, res, next){
 }
 
 async function list(req, res) {
+  
   const data = await service.list();
 
   res.json({

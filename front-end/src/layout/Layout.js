@@ -25,9 +25,9 @@ function Layout() {
           <Routes />
         </div>
       </div>
-      <div className="row">
+      <footer className="footer">
         <Footer />
-      </div>
+      </footer>
     </div>
   );
 }

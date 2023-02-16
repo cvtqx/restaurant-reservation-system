@@ -4,7 +4,6 @@ import React from 'react';
 
 const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandler}) => {
 
-
   return (
     <main>
       <form onSubmit={submitHandler}>

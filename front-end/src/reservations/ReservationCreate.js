@@ -23,10 +23,10 @@ const ReservationCreate = () => {
     }
 
     const [reservation, setReservation] = useState({...initialFormState});
-
     const [error, setError] = useState(null);
 
-    function cancelHandler(){
+
+    const cancelHandler = () =>{
         history.goBack();
     }
 
@@ -39,8 +39,7 @@ const ReservationCreate = () => {
         reservation.people = Number(reservation.people);
         
         try{
-          const response = await createReservation(reservation, abortController.signal);
-          
+          const response = await createReservation(reservation, abortController.signal);         
           history.push(
             `/dashboard?date=${formatAsDate(response.reservation_date)}`
           );
@@ -55,7 +54,7 @@ const ReservationCreate = () => {
               
     }
 
-    function changeHandler({target: {name, value}}){
+    const changeHandler = ({target: {name, value}}) => {
         setReservation((previousReservation) =>({
             ...previousReservation,
             [name]: value,

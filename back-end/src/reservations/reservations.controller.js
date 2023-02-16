@@ -18,19 +18,20 @@ function hasData(req, res, next){
 }
 
 //validate that body has all required properties
+
 const requiredProperties =[
-  "first_name",
-  "last_name",
-"mobile_number",
-"reservation_date",
-"reservation_time",
-"people"
+    "first_name",
+    "last_name",
+    "mobile_number",
+    "reservation_date",
+    "reservation_time",
+    "people"
 ]
 
 const hasRequiredProperties = hasProperties(requiredProperties);
 
 
-//validate that number of people is not less than 1 and is integer
+//validate that number of people is not less than 1
 
 function validNumberOfPeople(req, res, next){
 
@@ -179,7 +180,9 @@ const validStatusValues =[
 ]
 
 function validStatus(req, res, next){
+
   const {status} = req.body.data;
+
   if(!validStatusValues.includes(status)){
     return next({status: 400, message: "unknown status"})
   }
@@ -216,6 +219,7 @@ function bookedStatus(req, res, next){
 }
 
 //CRUDL functions
+
 //create new reservation
 
 async function create(req, res){
@@ -227,7 +231,46 @@ async function create(req, res){
   })
 }
 
-//list reservations for a date and a mobile number
+// get a single reservation
+
+function read(req, res){
+  
+  res.json({data: res.locals.reservation})
+}
+
+
+//update reservation
+
+async function update(req, res, next){
+  
+  const updatedReservation={
+    ...req.body.data,
+    reservation_id: res.locals.reservation.reservation_id,
+  }
+  const data = await service.update(updatedReservation);
+  res.json({data})
+}
+
+
+//update reservatio status
+
+async function updateStatus(req, res, next) {
+
+  const status = req.body.data.status;
+  const { reservation_id } = res.locals.reservation;
+
+  const updatedReservation = {
+    reservation_id: reservation_id,
+    status: status,
+  };
+
+  const data = await service.updateStatus(updatedReservation);
+  res.json({ data });
+}
+
+
+//list reservations for a date, a mobile number
+
 async function list(req, res) {
 
   const {date, mobile_number} = req.query;
@@ -239,42 +282,11 @@ async function list(req, res) {
     const data = await service.search(mobile_number)
     res.json({data})
   }else{
-
     const data = await service.list();
-
     res.json({ data })
-  }
-  
+  } 
 }
 
-function read(req, res){
-  
-  res.json({data: res.locals.reservation})
-}
-
-async function update(req, res, next){
-  const updatedReservation={
-    ...req.body.data,
-    reservation_id: res.locals.reservation.reservation_id,
-  }
-  const data = await service.update(updatedReservation);
-  res.json({data})
-}
-
-
-async function updateStatus(req, res, next){
-
- const status = req.body.data.status;
- const {reservation_id} = res.locals.reservation;
-
- const updatedReservation = {
-  reservation_id: reservation_id,
-  status: status
- }
-
- const data = await service.updateStatus(updatedReservation);
- res.json({data})
-}
 
 
 module.exports = {

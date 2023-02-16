@@ -1,6 +1,7 @@
 import React from 'react';
-import TableFinish from './TableFinish';
 
+//import components
+import TableFinish from './TableFinish';
 
 const TablesList = ({tables, clickHandler, error}) => {
 

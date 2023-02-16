@@ -26,14 +26,9 @@ function list() {
 }
 
 
-
-
-
-
 module.exports = {
   create,
   read,
-  update,
-  
+  update,  
   list,
 };
