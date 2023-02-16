@@ -1,4 +1,5 @@
 import React from 'react';
+//import components
 import ReservationCancel from "./ReservationCancel";
 
 
@@ -26,41 +27,51 @@ const ReservationsList = ({reservations, date}) => {
             </a>
           )}
         </td>
-        <td className="btn-group" role="group">
-          <a
-            className="btn btn-primary"
-          href={`/reservations/${reservation.reservation_id}/edit`}
-          >
-            Edit
-          </a>
-          <ReservationCancel reservation_id = {reservation.reservation_id}/>
-        </td>
+        {reservation.status === "booked" || reservation.status === "seated" ? (
+          <>
+            <td>
+              <a
+                className="btn btn-primary"
+                href={`/reservations/${reservation.reservation_id}/edit`}
+              >
+                Edit
+              </a>
+            </td>
+            <td>
+              <ReservationCancel reservation_id={reservation.reservation_id} />
+            </td>
+          </>
+        ) : (
+          <>
+            <td></td>
+            <td></td>
+          </>
+        )}
       </tr>
     ));
 
 
     if(reservations.length >0){
   return (
-    <div className="container">
-      <div className="table-responsive">
-        <table className="table table-hover">
-          <thead>
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">First Name</th>
-              <th scope="col">Last Name</th>
-              <th scope="col">Mobile Number</th>
-              <th scope="col">Date</th>
-              <th scope="col">Time</th>
-              <th scope="col">Number of people</th>
-              <th scope="col">Status</th>
-              <th scope="col"></th>
-              <th scope="col">Action</th>
-            </tr>
-          </thead>
-          <tbody>{tableRows}</tbody>
-        </table>
-      </div>
+    <div className="table table-striped table-responsive table-sm">
+      <table className="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First Name</th>
+            <th scope="col">Last Name</th>
+            <th scope="col">Mobile Number</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Number of people</th>
+            <th scope="col">Status</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>{tableRows}</tbody>
+      </table>
     </div>
   );
     }

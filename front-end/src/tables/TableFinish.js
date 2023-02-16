@@ -1,47 +1,19 @@
-import React, { useState } from "react";
-import { useHistory} from 'react-router';
+import React from "react";
+
 
 //import components
 import ErrorAlert from '../layout/ErrorAlert';
 
-//import utility functions
-import {finishTable} from "../utils/api";
 
-const TableFinish = ({table}) => {
 
-    const history = useHistory();
-    const [error, setError] = useState(null);
+const TableFinish = ({table, clickHandler, error}) => {
 
-    const clickHandler = async(event)=>{
-        event.preventDefault();
-        setError(null);
-        
-        const abortController = new AbortController();
-
-        
-            const confirmation = window.confirm(
-              "Is this table ready to seat new guests? This cannot be undone."
-            );
-            if (confirmation) {
-              try{
-              await finishTable(table.table_id, abortController.signal);
-              //TO DO get request to list updated tables
-              history.push("/"); 
-              }
-              catch(error){
-                setError(error)
-              }             
-            }      
-       return () => abortController.abort();
-    }
-      
-    
-
+   
   return (
     table.reservation_id && (
       <div>
         <ErrorAlert error={error} />
-        <button className="btn btn-danger" type="button" onClick={clickHandler}>
+        <button className="btn btn-danger" type="button" onClick={(e)=>clickHandler(e, table.table_id)}>
           Finish
         </button>
       </div>

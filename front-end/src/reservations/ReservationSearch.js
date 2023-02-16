@@ -43,7 +43,7 @@ const ReservationSearch = () => {
   return (
     <main>
       <div className="form-group">
-        <h1 className="text-center">Find reservation</h1>
+        <h2 className="text-center">Find reservation</h2>
 
         <ErrorAlert error={error} />
         <form onSubmit={submitHandler}>

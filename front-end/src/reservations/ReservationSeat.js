@@ -67,9 +67,9 @@ const ReservationSeat = () => {
         <ErrorAlert error={error} />
       </div>
       <form onSubmit={submitHandler}>
-        <h4 className="text-center">
+        <h2 className="text-center">
           Seat reservation number {reservation_id}
-        </h4>
+        </h2>
         <label htmlFor="table_id">Table number:</label>
         <select
           id="table_id"

@@ -2,7 +2,7 @@ import React from 'react';
 import TableFinish from './TableFinish';
 
 
-const TablesList = ({tables}) => {
+const TablesList = ({tables, clickHandler, error}) => {
 
     const tableRows = tables.map((table) => (
       <tr key={table.table_id}>
@@ -13,16 +13,16 @@ const TablesList = ({tables}) => {
           {table.reservation_id === null ? "Free" : "Occupied"}
         </td>
         <td data-table-id-finish={table.table_id}>
-          <TableFinish table={table} />
+          <TableFinish table={table} clickHandler={clickHandler} error={error} />
         </td>
       </tr>
     ));
 
 
   return (
-    <div className="container">
-      <h4 className="text-center">Tables</h4>
-      <div className="table-responsive">
+    <div>
+      <h4>Tables</h4>
+      <div className="table table-striped table-responsive table-sm">
         <table className="table table-hover">
           <thead>
             <tr>
