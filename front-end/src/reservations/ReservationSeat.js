@@ -66,36 +66,45 @@ const ReservationSeat = () => {
       <div className="row">
         <ErrorAlert error={error} />
       </div>
-      <form onSubmit={submitHandler}>
-        <h2 className="text-center">
-          Seat reservation number {reservation_id}
-        </h2>
-        <label htmlFor="table_id">Table number:</label>
-        <select
-          id="table_id"
-          name="table_id"
-          onChange={changeHandler}
-          value={formData.table_id}
-        >
-          <option value="">Select a table</option>
-          {tables.map((table) => (
-            <option key={table.table_id} value={table.table_id}>
-              {table.table_name} - {table.capacity}
-            </option>
-          ))}
-        </select>
+      <div className="card mt-3">
+        <div className="card-body">
+          <form onSubmit={submitHandler}>
+            <h2 className="card-title">
+              Seat reservation number {reservation_id}
+            </h2>
+            <div className="card-text mb-3">
+              <label htmlFor="table_id" className="form-label">
+                Table number:
+              </label>
+              <select
+                id="table_id"
+                name="table_id"
+                onChange={changeHandler}
+                value={formData.table_id}
+                className="form-control"
+              >
+                <option value="">Select a table</option>
+                {tables.map((table) => (
+                  <option key={table.table_id} value={table.table_id}>
+                    {table.table_name} - {table.capacity}
+                  </option>
+                ))}
+              </select>
+            </div>
 
-        <button type="submit" className="btn btn-primary">
-          Submit
-        </button>
-        <button
-          type="button"
-          className="btn btn-secondary"
-          onClick={() => history.goBack()}
-        >
-          Cancel
-        </button>
-      </form>
+            <button type="submit" className="btn btn-primary card-link">
+              Submit
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary card-link"
+              onClick={() => history.goBack()}
+            >
+              Cancel
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   );
   

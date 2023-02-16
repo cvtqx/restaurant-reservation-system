@@ -43,7 +43,7 @@ const ReservationSearch = () => {
   return (
     <main>
       <div className="form-group">
-        <h2 className="text-center">Find reservation</h2>
+        <h2>Find reservation</h2>
 
         <ErrorAlert error={error} />
         <form onSubmit={submitHandler}>
@@ -68,7 +68,7 @@ const ReservationSearch = () => {
       </div>
 
       <div className="container">
-        <h4 className="text-center">Search Result</h4>
+        <h4>Search Result</h4>
        
           {reservations.length > 0 ? (
              <div className="row">

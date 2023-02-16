@@ -42,7 +42,7 @@ function Dashboard({ date }) {
     listReservations({ date: currentDate }, abortController.signal)
       .then(setReservations)
       .catch(setReservationsError);
-    listTables(abortController.signal).then(setTables);
+    listTables(abortController.signal).then(setTables).catch(setTablesError);
   }
 
 //update date 
