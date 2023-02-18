@@ -41,11 +41,11 @@ Users can create a new reservation by clicking _New reservation_ on the navigati
 
 * Desktop view
 
-![create reservation large screen](/images/createLG.png)
+![create reservation large screen](./images/createLG.png)
 
 - Mobile view
 
-![create reservation small screen](/images/createSM.png)
+![create reservation small screen](./images/createSM.png)
 
 
 ### UPDATE RESERVATION
@@ -54,11 +54,11 @@ Users can update existing reservation by clicking _Edit_ button next to the rese
 
 - Desktop view
 
-![update reservation large screen](/images/updateLG.png)
+![update reservation large screen](./images/updateLG.png)
 
 - Mobile view
 
-![update reservation small screen](/images/updateSM.png)
+![update reservation small screen](./images/updateSM.png)
 
 ### SEARCH FOR RESERVATIONS
 
@@ -66,11 +66,11 @@ In order to search for a reservation users need to click _Search_ on the navigat
 
 - Desktop view
 
-![search reservation large screen](/images/searchLG.png)
+![search reservation large screen](./images/searchLG.png)
 
 - Mobile view
 
-![searchreservation small screen](/images/searchSM.png)
+![searchreservation small screen](./images/searchSM.png)
 
 
 ### CREATE NEW TABLE
@@ -79,11 +79,11 @@ Users can create a new table by clicking _New table_ on the navigation bar.
 
 - Desktop view
 
-![create table large screen](/images/createTableLG.png)
+![create table large screen](./images/createTableLG.png)
 
 - Mobile view
 
-![create table small screen](/images/createTableSM.png)
+![create table small screen](./images/createTableSM.png)
 
 
 ### SEAT RESERVATION
@@ -92,11 +92,11 @@ Users can 'seat' a reservation by clicking _Seat_ button dsiplayed next to an ex
 
 - Desktop view
 
-![seat reservation large screen](/images/seatLG.png)
+![seat reservation large screen](./images/seatLG.png)
 
 - Mobile view
 
-![seatreservation small screen](/images/seatSM.png)
+![seatreservation small screen](./images/seatSM.png)
 
 
 ### FINISH TABLE
@@ -105,11 +105,11 @@ Seated tables display _Finish_ button clicking which the table will be cleared a
 
 - Desktop view
 
-![finish table large screen](/images/finishTableLG.png)
+![finish table large screen](./images/finishTableLG.png)
 
 - Mobile view
 
-![finish table small screen](/images/finishTableSM.png)
+![finish table small screen](./images/finishTableSM.png)
 
 
 ## Installation
