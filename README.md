@@ -28,9 +28,11 @@ The API allows to create, update, read and list records. User cannot delete reco
 Dashboard displays the list of reservations for today by default. _Previous_ and _Next_ buttons allow user to display reservations for past and future dates.
 
 * Desktop view
+
 ![dashboard large screen](./images/dashboardLG.png)
 
 * Mobile view
+
 ![dashboard small screen](./images/dashboardSM.png)
 
 ### CREATE RESERVATION
