@@ -29,11 +29,13 @@ Dashboard displays the list of reservations for today by default. _Previous_ and
 
 * Desktop view
 
-![dashboard large screen](./images/dashboardLG.png | width=100)
+![dashboard large screen](./images/dashboardLG.png=250x
+)
 
 * Mobile view
 
-![dashboard small screen](./images/dashboardSM.png)
+![dashboard small screen](./images/dashboardSM.png=250x
+)
 
 ### CREATE RESERVATION
 
