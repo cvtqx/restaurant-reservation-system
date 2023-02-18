@@ -3,6 +3,11 @@
 > This is a reservation system for fine dining restaurants.
 > The software is used only by restaurant personnel when a customer calls to request a reservation. It allows restaurant managers to create, update and save reservations, search for reservations by customer's phone number, create new tables and assign tables to reservations as well as free up tables once reservations are done with their meal. The application is fully responsive and can adapt to screens of all sizes.
 
+## Deployed version
+
+Frontend:
+Backend:
+
 ## Technologies used
 
 | Backend | Frontend |
@@ -22,56 +27,87 @@ The API allows to create, update, read and list records. User cannot delete reco
 
 Dashboard displays the list of reservations for today by default. _Previous_ and _Next_ buttons allow user to display reservations for past and future dates.
 
+* Desktop view
 ![dashboard large screen](./images/dashboardLG.png)
-![dashboard small screen](/images/dashboardSM.png)
+
+* Mobile view
+![dashboard small screen](./images/dashboardSM.png)
 
 ### CREATE RESERVATION
 
 Users can create a new reservation by clicking _New reservation_ on the navigation bar. 
 
-![create reservation large](/images/createLG?raw=true)
-![create reservation small](/images/createSM?raw=true)
+* Desktop view
+
+![create reservation large screen](/images/createLG.png)
+
+- Mobile view
+
+![create reservation small screen](/images/createSM.png)
 
 
 ### UPDATE RESERVATION
 
 Users can update existing reservation by clicking _Edit_ button next to the reservation.
 
-![update reservation large](/images/updateLG?raw=true)
-![update reservation small](/images/updateSM?raw=true)
+- Desktop view
+
+![update reservation large screen](/images/updateLG.png)
+
+- Mobile view
+
+![update reservation small screen](/images/updateSM.png)
 
 ### SEARCH FOR RESERVATIONS
 
 In order to search for a reservation users need to click _Search_ on the navigation bar. The search can be done by a phone number and will display all records that match partially or completely.
 
-![search reservation large](/images/searchLG?raw=true)
-![searchreservation small](/images/searchSM?raw=true)
+- Desktop view
+
+![search reservation large screen](/images/searchLG.png)
+
+- Mobile view
+
+![searchreservation small screen](/images/searchSM.png)
 
 
 ### CREATE NEW TABLE
 
 Users can create a new table by clicking _New table_ on the navigation bar.
 
-![create table large](/images/createTableLG?raw=true)
-![create table small](/images/createTableSM?raw=true)
+- Desktop view
+
+![create table large screen](/images/createTableLG.png)
+
+- Mobile view
+
+![create table small screen](/images/createTableSM.png)
 
 
 ### SEAT RESERVATION
 
 Users can 'seat' a reservation by clicking _Seat_ button dsiplayed next to an existing reservation. The _Seat_ button is only displayed next to reservations whose status 'booked'. Once the reservation is seated the button will disappear  and reservation status will be displayed as 'seated'.
 
+- Desktop view
 
-![seat reservation large](/images/seatLG?raw=true)
-![seatreservation small](/images/seatSM?raw=true)
+![seat reservation large screen](/images/seatLG.png)
+
+- Mobile view
+
+![seatreservation small screen](/images/seatSM.png)
 
 
 ### FINISH TABLE
 
 Seated tables display _Finish_ button clicking which the table will be cleared and available for seating again.
 
+- Desktop view
 
-![finish table large](/images/finishTableLG?raw=true)
-![finish table small](/images/finishTableSM?raw=true)
+![finish table large screen](/images/finishTableLG.png)
+
+- Mobile view
+
+![finish table small screen](/images/finishTableSM.png)
 
 
 ## Installation
