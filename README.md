@@ -1,7 +1,7 @@
 # Capstone: Restaurant Reservation System
 
 > This is a reservation system for fine dining restaurants.
-> The software is used only by restaurant personnel when a customer calls to request a reservation. It allows restaurant managers to create, update and save reservations, search for reservations by customer's phone number, create new tables and assign tables to reservations as well as free up tables once reservations are done with their meal. The application is fully responsive and can adapt to screens of all sizes.
+> The software is used only by restaurant personnel when a customer calls to request a reservation. It allows restaurant managers to create, update and save reservations, search for reservations by customer's phone number, create new tables and assign tables to reservations as well as free up tables once reservations are done with their meal. **The application is fully responsive and can adapt to screens of all sizes. In Mobile View lists are scrollable horizontally.**
 
 ## Deployed version
 
