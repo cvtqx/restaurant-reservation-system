@@ -52,7 +52,8 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             required={true}
             value={reservation.mobile_number}
             onChange={changeHandler}
-            placeholder="(---) --- ----"
+          
+            placeholder="123-456-7890"
           />
         </div>
         <div className="mb-3">
