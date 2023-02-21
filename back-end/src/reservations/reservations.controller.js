@@ -95,15 +95,18 @@ function validDateFormat(req, res, next){
     next();
 }
 
-//validate that reservation is not for a Tuesday
+//validate that reservation is not for a Tuesday 
 
 function reservationOnTuesday(req, res,next){
   
-  const resDate = new Date(req.body.data.reservation_date);
+  const resDate = req.body.data.reservation_date;
+  const resTime = req.body.data.reservation_time;
 
-  const resDay = resDate.getDay();
+  let reservationDate = new Date(`${resDate}, ${resTime}`);
 
-  if(resDay === 1){
+  const resDay = reservationDate.getDay();
+  
+  if(resDay === 2){
     return next({
       status: 400,
       message: "The restaurant is closed on Tuesdays",
@@ -120,7 +123,13 @@ function reservationNotInPast(req, res, next){
   const resDate = req.body.data.reservation_date;
   const resTime = req.body.data.reservation_time;
 
-  if(new Date(`${resDate}, ${resTime}`) < new Date()){
+  const reservationDate = new Date(`${resDate}, ${resTime}`);
+  const dateNow = new Date();
+
+  if (
+    reservationDate < dateNow &&
+    reservationDate.getTime() < dateNow.getTime()
+  ) {
     return next({
       status: 400,
       message: "Reservation must be for a future date/time",
