@@ -62,7 +62,7 @@ const ReservationSearch = () => {
         </form>
       </div>
 
-      <div className="container">
+      <div className="container-fluid">
         <h4>Search Result</h4>
        
           {reservations.length > 0 ? (
