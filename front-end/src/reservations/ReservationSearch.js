@@ -48,7 +48,7 @@ const ReservationSearch = () => {
               type="tel"
               className="form-control"
               name="mobile_number"
-              placeholder="Enter customer's phone number"
+              placeholder="Enter a customer's phone number"
               aria-label="mobile_number"
               aria-describedby="basic-addon2"
               required={true}

@@ -16,14 +16,14 @@ const {
   DEBUG,
 } = process.env;
 
-//const URL = NODE_ENV === "production" ? DATABASE_URL : DATABASE_URL_DEVELOPMENT;
+const URL = NODE_ENV === "production" ? DATABASE_URL : DATABASE_URL_DEVELOPMENT;
 
 
 module.exports = {
   development: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: DATABASE_URL_DEVELOPMENT,
+    connection: URL,
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
@@ -32,6 +32,7 @@ module.exports = {
     },
     debug: !!DEBUG,
   },
+
 
   test: {
     client: "postgresql",
@@ -60,7 +61,7 @@ module.exports = {
   production: {
     client: "postgresql",
     pool: { min: 1, max: 5 },
-    connection: DATABASE_URL,
+    connection: URL,
     migrations: {
       directory: path.join(__dirname, "src", "db", "migrations"),
     },
