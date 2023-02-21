@@ -5,8 +5,10 @@
 
 ## Deployed version
 
-Frontend:
-Backend:
+- Frontend: https://restaurant-reservation-frontend-vfda.onrender.com
+
+- Backend: https://restaurant-reservation-backend-804c.onrender.com
+
 
 ## Technologies used
 
