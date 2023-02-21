@@ -18,7 +18,6 @@ const {
 
 const URL = NODE_ENV === "production" ? DATABASE_URL : DATABASE_URL_DEVELOPMENT;
 
-console.log(URL);
 
 module.exports = {
   development: {

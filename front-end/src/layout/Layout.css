@@ -1,22 +1,26 @@
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
+  
 }
 
-.footer {
+/* .footer {
   height: 20vh
 }
 
 .col {
   min-height: 50vh
-}
+}*/
 
 /* -------  Media Query ------- */
+
 /*for desktop*/
 
-@media all and (min-width: 480px){
+/*@media all and (min-width: 480px){
 
 .navbar {
   height: 80vh
 }
 }
+
+*/
