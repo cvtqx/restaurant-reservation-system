@@ -125,12 +125,10 @@ function reservationNotInPast(req, res, next){
 
   const reservationDate = new Date(`${resDate}, ${resTime}`);
   const dateNow = new Date();
-console.log("resDate", reservationDate <= dateNow);
-console.log("date now", reservationDate.getTime() <= dateNow.getTime());
 
   if (
     reservationDate <= dateNow &&
-    reservationDate.getTime() <= dateNow.getTime()
+    reservationDate.toTimeString() <= dateNow.toTimeString()
   ) {
     return next({
       status: 400,
