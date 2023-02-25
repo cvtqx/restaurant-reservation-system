@@ -127,15 +127,24 @@ function reservationNotInPast(req, res, next){
   const dateNow = new Date();
 
   if (
-    reservationDate <= dateNow &&
-    reservationDate.toTimeString() <= dateNow.toTimeString()
+    reservationDate < dateNow
   ) {
     return next({
       status: 400,
-      message: "Reservation must be for a future date/time",
+      message: "Reservation must be for a future date",
     });
   }
-next();
+
+  if (
+    reservationDate === dateNow &&
+    reservationDate.toTimeString() <= dateNow.toTimeString()
+  ){
+    return next({
+      status: 400,
+      message: "Reservation must be for a future time",
+    });
+  }
+    next();
 }
 
 
