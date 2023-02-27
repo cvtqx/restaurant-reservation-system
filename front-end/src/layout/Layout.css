@@ -1,7 +1,6 @@
 .side-bar {
   background-color: #393a44;
   min-width: 200px;
-  
 }
 
 /* .footer {
@@ -16,11 +15,10 @@
 
 /*for desktop*/
 
-/*@media all and (min-width: 480px){
+@media all and (min-width: 800px){
 
-.navbar {
-  height: 80vh
+.side-bar { 
+  height: 110vh;
 }
 }
 
-*/

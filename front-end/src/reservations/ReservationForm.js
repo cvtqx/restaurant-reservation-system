@@ -52,7 +52,6 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             required={true}
             value={reservation.mobile_number}
             onChange={changeHandler}
-          
             placeholder="123-456-7890"
           />
         </div>
@@ -107,7 +106,7 @@ const ReservationForm = ({reservation, submitHandler, changeHandler, cancelHandl
             min={1}
           />
         </div>
-        <div>
+        <div className="mb-3">
           <button type="submit" className="btn btn-primary">
             Submit
           </button>

@@ -120,15 +120,12 @@ function reservationOnTuesday(req, res,next){
 
 function reservationNotInPast(req, res, next){
 
-  const resDate = req.body.data.reservation_date;
-  const resTime = req.body.data.reservation_time;
+  const { reservation_date, reservation_time } = req.body.data;
 
-  const reservationDate = new Date(`${resDate}, ${resTime}`);
+  const reservationDate = new Date(`${reservation_date}, ${reservation_time}`);
   const dateNow = new Date();
 
-  if (
-    reservationDate < dateNow
-  ) {
+  if (reservationDate.toUTCString() < dateNow.toUTCString()) {
     return next({
       status: 400,
       message: "Reservation must be for a future date",
@@ -137,7 +134,7 @@ function reservationNotInPast(req, res, next){
 
   if (
     reservationDate === dateNow &&
-    reservationDate.toTimeString() <= dateNow.toTimeString()
+    reservationDate.toTimeString() < dateNow.toTimeString()
   ){
     return next({
       status: 400,
