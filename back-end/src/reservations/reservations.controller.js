@@ -125,7 +125,11 @@ function reservationNotInPast(req, res, next){
   const reservationDate = new Date(`${reservation_date}, ${reservation_time}`);
   const dateNow = new Date();
 
-  if (reservationDate.toUTCString() < dateNow.toUTCString()) {
+
+  console.log("reservationDate", reservationDate.getUTCDate());
+  console.log("dateNow", dateNow.getUTCDate());
+  
+  if (reservationDate.getUTCDate() < dateNow.getUTCDate()) {
     return next({
       status: 400,
       message: "Reservation must be for a future date",
@@ -133,14 +137,16 @@ function reservationNotInPast(req, res, next){
   }
 
   if (
-    reservationDate === dateNow &&
-    reservationDate.toTimeString() < dateNow.toTimeString()
-  ){
+    reservationDate.getUTCDate() === dateNow.getUTCDate() &&
+    reservationDate.getUTCHours() <= dateNow.getUTCHours() &&
+    reservationDate.getUTCMinutes() < dateNow.getUTCMinutes()
+  ) {
     return next({
       status: 400,
       message: "Reservation must be for a future time",
     });
   }
+  
     next();
 }
 
@@ -267,7 +273,7 @@ async function update(req, res, next){
 }
 
 
-//update reservatio status
+//update reservation status
 
 async function updateStatus(req, res, next) {
 
