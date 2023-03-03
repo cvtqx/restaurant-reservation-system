@@ -126,8 +126,8 @@ function reservationNotInPast(req, res, next){
   const dateNow = new Date();
 
 
-  console.log("reservationDate", reservationDate.getUTCDate());
-  console.log("dateNow", dateNow.getUTCDate());
+  //console.log("reservationDate", reservationDate.getUTCDate());
+  //console.log("dateNow", dateNow.getUTCDate());
   
   if (reservationDate.getUTCDate() < dateNow.getUTCDate()) {
     return next({
