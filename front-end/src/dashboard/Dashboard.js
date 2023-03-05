@@ -88,8 +88,8 @@ function Dashboard({ date }) {
 
   return (
     <main className="col-md-10 ms-sm-auto col-lg-10 px-md-4">
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h1 className="h2">Dashboard</h1>
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom row d-md-flex">
+        <h1 className="h1">Dashboard</h1>
 
         {/* buttons to change the date*/}
 
@@ -144,7 +144,7 @@ function Dashboard({ date }) {
       </div>
 
       {/* tables display*/}
-      
+
       <div className="row d-md-flex mb-3">
         {tables ? (
           <TablesList

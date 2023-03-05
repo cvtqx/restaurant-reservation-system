@@ -7,14 +7,17 @@ const TablesList = ({tables, clickHandler, error}) => {
 
     const tableRows = tables.map((table) => (
       <tr key={table.table_id}>
-        <th scope="row">{table.table_id}</th>
-        <td>{table.table_name}</td>
+        <th scope="row">{table.table_name}</th>
         <td>{table.capacity}</td>
         <td data-table-id-status={table.table_id}>
           {table.reservation_id === null ? "Free" : "Occupied"}
         </td>
         <td data-table-id-finish={table.table_id}>
-          <TableFinish table={table} clickHandler={clickHandler} error={error} />
+          <TableFinish
+            table={table}
+            clickHandler={clickHandler}
+            error={error}
+          />
         </td>
       </tr>
     ));
@@ -27,7 +30,6 @@ const TablesList = ({tables, clickHandler, error}) => {
         <table className="table table-hover">
           <thead>
             <tr>
-              <th scope="col">#</th>
               <th scope="col">Table name</th>
               <th scope="col">Capacity</th>
               <th scope="col">Table status</th>

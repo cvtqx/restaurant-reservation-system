@@ -38,12 +38,15 @@ const ReservationSearch = () => {
 
   return (
     <main>
-      <div className="form-group">
-        <h2>Find reservation</h2>
+      <div className="col form-group">
+        <div className="row d-md-flex my-3">
+          <h2>Find reservation</h2>
 
-        <ErrorAlert error={error} />
+          <ErrorAlert error={error} />
+        </div>
+
         <form onSubmit={submitHandler}>
-          <div className="input-group mb-3">
+          <div className="row input-group mb-3">
             <input
               type="tel"
               className="form-control"
@@ -58,22 +61,27 @@ const ReservationSearch = () => {
             <button className="btn btn-primary" id="basic-addon2" type="submit">
               Find
             </button>
-          </div>         
+          </div>
         </form>
       </div>
 
-      <div className="container-fluid">
-        <h4>Search Result</h4>
-       
-          {reservations.length > 0 ? (
-             <div className="row">
+      <div className="container-fluid col">
+        <div className="row d-md-flex mb-3">
+          <h4>Search Result</h4>
+        </div>
+        {reservations.length > 0 ? (
+          <div className="row d-md-flex mb-3">
             <ReservationsList reservations={reservations} />
-            </div>
-          ) : (
-            <div className="alert alert-dark text-center" role="alert">
-            No reservations found</div>
-          )}
-        </div>      
+          </div>
+        ) : (
+          <div
+            className="row d-md-flex mb-3 alert alert-dark text-center"
+            role="alert"
+          >
+            No reservations found
+          </div>
+        )}
+      </div>
     </main>
   );
 
