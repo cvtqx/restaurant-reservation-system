@@ -21,7 +21,7 @@ const TablesList = ({tables, clickHandler, error}) => {
 
 
   return (
-    <div>
+    <>
       <h4>Tables</h4>
       <div className="table table-striped table-responsive table-sm">
         <table className="table table-hover">
@@ -37,7 +37,7 @@ const TablesList = ({tables, clickHandler, error}) => {
           <tbody>{tableRows}</tbody>
         </table>
       </div>
-    </div>
+    </>
   );
 }
 

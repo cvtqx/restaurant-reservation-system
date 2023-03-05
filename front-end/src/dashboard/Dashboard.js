@@ -139,7 +139,7 @@ function Dashboard({ date }) {
         {reservations ? (
           <ReservationsList reservations={reservations} date={currentDate} />
         ) : (
-          "Loading"
+          "Loading..."
         )}
       </div>
 
@@ -153,7 +153,7 @@ function Dashboard({ date }) {
             clickHandler={finishButtonHandler}
           />
         ) : (
-          "Loading"
+          "Loading..."
         )}
       </div>
     </main>
