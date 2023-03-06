@@ -11,7 +11,7 @@
 
 ## Note
 
-UPD 03/03/2023 - Although this is a complete and fully functional application I continue working on it and will be updating it regularly.
+UPD 03/06/2023 - Although this is a complete and fully functional application I continue working on it adding new functionality and styling. 
 
 ## Technologies used
 
