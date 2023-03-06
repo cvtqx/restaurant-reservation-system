@@ -63,7 +63,7 @@ const ReservationCreate = () => {
 
   return (
     <>
-      <h2 className="mb-3">Create Reservation</h2>
+      <h2 className="mb-3 pt-3">Create Reservation</h2>
       <ErrorAlert error={error} />
       <ReservationForm
         reservation={reservation}

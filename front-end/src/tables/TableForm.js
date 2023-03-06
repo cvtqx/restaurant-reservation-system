@@ -3,7 +3,7 @@ import React from 'react'
 const TableForm = ({ submitHandler, cancelHandler, changeHandler, formData }) => {
   return (
     <form onSubmit={submitHandler}>
-      <h2 className="mb-3">Create new table</h2>
+      <h2 className="mb-3 pt-3">Create new table</h2>
       <div className="mb-3">
         <label className="form-label" htmlFor="table_name">
           {" "}
