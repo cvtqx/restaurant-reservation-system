@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {useHistory, useRouteMatch} from "react-router-dom";
 
+
 //import utility functions
 import { listReservations, listTables, finishTable } from "../utils/api";
 import  useQuery  from "../utils/useQuery";
@@ -88,8 +89,10 @@ function Dashboard({ date }) {
 
   return (
     <main className="col-md-10 ms-sm-auto col-lg-10 px-md-4">
-      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom row d-md-flex">
-        <h1 className="h1">Dashboard</h1>
+      <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom  d-md-flex">
+        <div>
+          <h1 className="h1">Dashboard</h1>
+        </div>
 
         {/* buttons to change the date*/}
 

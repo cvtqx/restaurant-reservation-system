@@ -76,7 +76,7 @@ const ReservationsList = ({reservations, date}) => {
     </div>
   );
     }
-    return <div className="container alert alert-dark" role="alert"> {`No reservations found for ${date}.`}</div>
+    return <div className="container alert alert-dark" role="alert" style={{minWidth:"100%"}}> {`No reservations found for ${date}.`}</div>
 }
 
 export default ReservationsList
