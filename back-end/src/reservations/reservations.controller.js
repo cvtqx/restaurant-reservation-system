@@ -95,87 +95,57 @@ function validDateFormat(req, res, next){
     next();
 }
 
-//validate that reservation is not for a Tuesday 
+ 
+//validate reservation's timeframe
 
-function reservationOnTuesday(req, res,next){
-  
-  const resDate = req.body.data.reservation_date;
-  const resTime = req.body.data.reservation_time;
+function reservationTimeFrameValidation(req, res, next){
+  const { reservation_date, reservation_time } = req.body.data;
 
-  let reservationDate = new Date(`${resDate}, ${resTime}`);
+  const date = new Date(`${reservation_date} ${reservation_time}`);
 
-  const resDay = reservationDate.getDay();
-  
-  if(resDay === 2){
+  //reservation is not for a tuesday
+  const resDay = date.getDay();
+
+  if (resDay === 2) {
     return next({
       status: 400,
       message: "The restaurant is closed on Tuesdays",
     });
   }
-  next();
-}
 
+  //reservation is not for a day or time in the past
 
-//validate that reservation is not for a date and time in the past
-
-function reservationNotInPast(req, res, next){
-
-  const { reservation_date, reservation_time } = req.body.data;
-
-  const reservationDate = new Date(`${reservation_date}, ${reservation_time}`);
-  const dateNow = new Date();
-
-
-  //console.log("reservationDate", reservationDate.getUTCDate());
-  //console.log("dateNow", dateNow.getUTCDate());
-  
-  if (reservationDate.getUTCDate() < dateNow.getUTCDate()) {
+  if (Date.parse(date) < Date.now()) {
     return next({
       status: 400,
-      message: "Reservation must be for a future date",
+      message: "Reservation must be for a future date/time",
+    });
+  }
+
+  //reservation is not outside of restaurant's open hours
+
+  if (
+    date.getHours() < 10 ||
+    (date.getHours() === 10 && date.getMinutes() < 30)
+  ) {
+    return next({
+      status: 400,
+      message: "The earliest reservation time is 10:30am",
     });
   }
 
   if (
-    reservationDate.getUTCDate() === dateNow.getUTCDate() &&
-    reservationDate.getUTCHours() <= dateNow.getUTCHours() &&
-    reservationDate.getUTCMinutes() < dateNow.getUTCMinutes()
+    date.getHours() > 21 ||
+    (date.getHours() === 21 && date.getMinutes() > 30)
   ) {
     return next({
       status: 400,
-      message: "Reservation must be for a future time",
+      message: "The latest reservation time is 9:30pm",
     });
   }
-  
-    next();
-}
-
-
-//validate that reservation is within eligible timeframe
-
-function reservationTimeFrameValid(req, res, next){
-
-      const resTime = req.body.data.reservation_time;
-      const resDate = req.body.data.reservation_date;
-
-      const date = new Date(`${resDate} ${resTime}`);
-
-
-      if(date.getHours() < 10 || (date.getHours() === 10 && date.getMinutes() < 30)) {
-        
-        return next({
-          status: 400,
-          message: "The earliest reservation time is 10:30am",
-        });
-      }
-      if(date.getHours() > 21 || (date.getHours() === 21 && date.getMinutes() > 30)){
-        return next({
-          status: 400,
-          message: "The latest reservation time is 9:30pm",
-        });
-      }
   next();
 }
+
 
 //validate that reservation exists
 
@@ -246,6 +216,7 @@ function bookedStatus(req, res, next){
 async function create(req, res){
 
   const newReservation = await service.create(req.body.data);
+  
 
   res.status(201).json({
     data: newReservation,
@@ -318,10 +289,8 @@ module.exports = {
     peopleIsNumber,
     validDateFormat,
     validTimeFormat,
-    reservationOnTuesday,
-    reservationNotInPast,
+    reservationTimeFrameValidation,
     bookedStatus,
-    reservationTimeFrameValid,
     asyncErrorBoundary(create),
   ],
   read: [asyncErrorBoundary(reservationExists), read],
@@ -333,10 +302,8 @@ module.exports = {
     peopleIsNumber,
     validDateFormat,
     validTimeFormat,
-    reservationOnTuesday,
-    reservationNotInPast,
+    reservationTimeFrameValidation,
     bookedStatus,
-    reservationTimeFrameValid,
     asyncErrorBoundary(update),
   ],
   updateStatus: [
