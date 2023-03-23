@@ -115,7 +115,7 @@ function reservationTimeFrameValidation(req, res, next){
 
   //reservation is not for a day or time in the past
 
-  if (Date.parse(date) < Date.now()) {
+  if (Date.parse(date) <= Date.now()) {
     return next({
       status: 400,
       message: "Reservation must be for a future date/time",
@@ -239,6 +239,16 @@ async function update(req, res, next){
     ...req.body.data,
     reservation_id: res.locals.reservation.reservation_id,
   }
+
+  const { reservation_date, reservation_time } = req.body.data;
+
+  const date = new Date(`${reservation_date} ${reservation_time}`);
+
+  console.log("date", date);
+  console.log("parsed", Date.parse(date));
+  console.log("now", Date.now());
+  console.log(Date.parse(date) > Date.now());
+
   const data = await service.update(updatedReservation);
   res.json({data})
 }
