@@ -103,6 +103,17 @@ function reservationTimeFrameValidation(req, res, next){
 
   const date = new Date(`${reservation_date} ${reservation_time}`);
 
+  const dateUTC = Date.UTC(
+    date.getUTCFullYear(),
+    date.getUTCMonth(),
+    date.getUTCDate(),
+    date.getUTCHours(),
+    date.getUTCMinutes(),
+    date.getUTCSeconds()
+  );
+
+  //console.log("dateUTC", new Date(dateUTC));
+
   //reservation is not for a tuesday
   const resDay = date.getDay();
 
@@ -115,7 +126,7 @@ function reservationTimeFrameValidation(req, res, next){
 
   //reservation is not for a day or time in the past
 
-  if (Date.parse(date) <= Date.now()) {
+  if (Date.parse(dateUTC) <= Date.now()) {
     return next({
       status: 400,
       message: "Reservation must be for a future date/time",
