@@ -112,7 +112,6 @@ function reservationTimeFrameValidation(req, res, next){
     date.getUTCSeconds()
   );
 
-  //console.log("dateUTC", new Date(dateUTC));
 
   //reservation is not for a tuesday
   const resDay = date.getDay();
@@ -251,14 +250,6 @@ async function update(req, res, next){
     reservation_id: res.locals.reservation.reservation_id,
   }
 
-  const { reservation_date, reservation_time } = req.body.data;
-
-  const date = new Date(`${reservation_date} ${reservation_time}`);
-
-  console.log("date", date);
-  console.log("parsed", Date.parse(date));
-  console.log("now", Date.now());
-  console.log(Date.parse(date) > Date.now());
 
   const data = await service.update(updatedReservation);
   res.json({data})
